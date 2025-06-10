@@ -20,8 +20,8 @@ public class wkqk {
 
         centerPanel.add(logoLabel);
 
-        topPanel.add(cnter)
-        frame.add(logoLabel, BorderLayout.NORTH);
+        topPanel.add(loginLabel, BorderLayout.EAST);
+        frame.add(topPanel, BorderLayout.NORTH);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
