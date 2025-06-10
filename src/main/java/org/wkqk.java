@@ -13,10 +13,13 @@ public class wkqk {
         JLabel logoLabel = new JLabel("lee Certificate");
         logoLabel.setFont(new Font("Serif", Font.BOLD, 24));
 
+        JLabel loginLabel = new JLabel("로그인");
+        loginLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel topPanel = new JPanel(new BorderLayout());
 
-        topPanel.add(C=centerPanel, BorderLayout.CENTER);
+        topPanel.add(centerPanel, BorderLayout.CENTER);
 
         centerPanel.add(logoLabel);
 
