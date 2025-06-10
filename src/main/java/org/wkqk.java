@@ -1,8 +1,7 @@
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.*;
+import javax.swing.*;
 import java.awt.Font;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 public class wkqk {
     public static void main(String[] args) {
@@ -11,12 +10,18 @@ public class wkqk {
         frame.setSize(1080, 720);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JLabel logoLabel = new JLabel("lee Certificate", SwingConstants.CENTER);
+        JLabel logoLabel = new JLabel("lee Certificate");
         logoLabel.setFont(new Font("Serif", Font.BOLD, 24));
 
-        frame.add(logoLabel, BorderLayout.NORTH);
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel topPanel = new JPanel(new BorderLayout());
 
-        frame.add(logoLabel);
+        topPanel.add(C=centerPanel, BorderLayout.CENTER);
+
+        centerPanel.add(logoLabel);
+
+        topPanel.add(cnter)
+        frame.add(logoLabel, BorderLayout.NORTH);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
