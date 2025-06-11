@@ -11,7 +11,7 @@ public class wkqk {
     private static JTextArea noticeArea;
     private static JButton deleteButton;
 
-    private static java.util.List<String> registeredIds = new java.util.ArrayList<>();
+    private static List<String> registeredIds = new ArrayList<>();
     private static Map<String, String> users = new HashMap<>();
     private static Map<String, Map<String, String>> userDetails = new HashMap<>();
 
@@ -188,7 +188,7 @@ public class wkqk {
         certRegSectionFullPanel.setLayout(new BoxLayout(certRegSectionFullPanel, BoxLayout.Y_AXIS));
 
         certRegSectionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        certRegLabel = new JLabel("자격증 등록");
+        JLabel certRegLabel = new JLabel("자격증 등록");
         certRegLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
         addCertButton = new JButton("+");
         addCertButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
@@ -367,49 +367,12 @@ public class wkqk {
         southButtonPanel.add(deleteButton);
         southButtonPanel.add(moreButton);
 
-        JLabel noticeLabel = new JLabel("공지사항");
-        noticeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+        frame.add(southButtonPanel, BorderLayout.SOUTH);
 
-        JPanel noticePanel = new JPanel(new BorderLayout());
-        noticePanel.add(noticeLabel, BorderLayout.NORTH);
-        JScrollPane noticeScrollPane = new JScrollPane(noticeArea);
-        noticeScrollPane.setPreferredSize(noticeArea.getPreferredSize());
-        noticePanel.add(noticeScrollPane, BorderLayout.CENTER);
-        noticePanel.add(southButtonPanel, BorderLayout.SOUTH);
-        noticePanel.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0));
-
-        initialMainContentPanel = new JPanel(new BorderLayout());
-        initialMainContentPanel.add(noticePanel, BorderLayout.WEST);
-
-        JLabel inquiryLabel = new JLabel("문의하기");
-        inquiryLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-
-        JTextArea inquiryArea = new JTextArea(10, 30);
-        inquiryArea.setEditable(false);
-        inquiryArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        inquiryArea.setText("문의 내용이 여기에 표시됩니다.");
-
-        addInquiryButton = new JButton("+");
-        addInquiryButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        addInquiryButton.setEnabled(false);
-
-        JPanel inquiryButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        inquiryButtonPanel.add(addInquiryButton);
-
-        JPanel inquiryPanel = new JPanel(new BorderLayout());
-        inquiryPanel.add(inquiryLabel, BorderLayout.NORTH);
-        JScrollPane inquiryScrollPane = new JScrollPane(inquiryArea);
-        inquiryScrollPane.setPreferredSize(inquiryArea.getPreferredSize());
-        inquiryPanel.add(inquiryScrollPane, BorderLayout.CENTER);
-        inquiryPanel.add(inquiryButtonPanel, BorderLayout.SOUTH);
-        inquiryPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 70));
-
-        initialMainContentPanel.add(inquiryPanel, BorderLayout.EAST);
-
-        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         logoutButton = new JButton("로그아웃");
         logoutButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         logoutButton.setVisible(false);
+
         logoutButton.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(frame,
                     "로그아웃 하시겠습니까?", "로그아웃 확인",
@@ -448,14 +411,11 @@ public class wkqk {
             }
         });
 
-        frame.add(southPanel, BorderLayout.SOUTH);
-
-        topPanel.add(centerPanel, BorderLayout.CENTER);
-        centerPanel.add(logoLabel);
-
-        frame.add(topPanel, BorderLayout.NORTH);
-
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        addInquiryButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(frame, "문의 등록 기능은 아직 준비 중입니다.", "안내", JOptionPane.INFORMATION_MESSAGE);
+        });
     }
 }
