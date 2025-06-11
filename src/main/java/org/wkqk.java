@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 public class wkqk {
 
@@ -15,7 +17,14 @@ public class wkqk {
     private static JTextArea noticeArea;
     private static JButton deleteButton;
 
+    private static List<String> registeredIds = new ArrayList<>();
+
     public static void main(String[] args) {
+
+        registeredIds.add("admin");
+        registeredIds.add("user1");
+        registeredIds.add("test");
+
 
         JFrame frame = new JFrame("자격증 홈페이지");
         frame.setSize(1080, 720);
@@ -70,8 +79,16 @@ public class wkqk {
 
                         JPanel signupInputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
 
+                        JPanel idInputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+                        JTextField signupIdField = new JTextField(10);
+                        JButton checkIdButton = new JButton("중복 확인");
+
+                        idInputPanel.add(signupIdField);
+                        idInputPanel.add(checkIdButton);
+
                         signupInputPanel.add(new JLabel("아이디:"));
-                        signupInputPanel.add(new JTextField());
+                        signupInputPanel.add(idInputPanel);
+
 
                         signupInputPanel.add(new JLabel("비밀번호:"));
                         signupInputPanel.add(new JPasswordField());
@@ -103,6 +120,23 @@ public class wkqk {
 
                         signupPopup.setLocationRelativeTo(loginPopup);
                         signupPopup.setVisible(true);
+
+                        checkIdButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent checkE) {
+                                String enteredId = signupIdField.getText();
+
+                                if (enteredId.isEmpty()) {
+                                    JOptionPane.showMessageDialog(signupPopup, "아이디를 입력하세요.", "경고", JOptionPane.WARNING_MESSAGE);
+                                } else {
+                                    if (registeredIds.contains(enteredId)) {
+                                        JOptionPane.showMessageDialog(signupPopup, "이미 사용 중인 아이디입니다.", "중복 확인", JOptionPane.WARNING_MESSAGE);
+                                    } else {
+                                        JOptionPane.showMessageDialog(signupPopup, "사용 가능한 아이디입니다.", "중복 확인", JOptionPane.INFORMATION_MESSAGE);
+                                    }
+                                }
+                            }
+                        });
                     }
                 });
 
