@@ -394,7 +394,7 @@ public class wkqk {
         initialMainContentPanel = new JPanel(new BorderLayout());
         initialMainContentPanel.add(noticePanel, BorderLayout.WEST);
 
-        // 문의하기 섹션 컴포넌트 생성 및 패널 구성
+        // 💡💡💡 문의하기 섹션 컴포넌트 생성 및 패널 구성 💡💡💡
         JLabel inquiryLabel = new JLabel("문의하기");
         inquiryLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 
@@ -423,7 +423,7 @@ public class wkqk {
         inquiryPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 70)); // 위, 왼쪽, 아래, 오른쪽(70) 여백 설정
 
 
-        // 초기 메인 콘텐츠 패널에 문의하기 패널을 EAST 영역에 추가!
+        // 💡💡💡 초기 메인 콘텐츠 패널에 문의하기 패널을 EAST 영역에 추가! 💡💡💡
         initialMainContentPanel.add(inquiryPanel, BorderLayout.EAST);
 
 
@@ -682,18 +682,41 @@ public class wkqk {
             frame.getContentPane().remove(centerComponent);
         }
 
-        JPanel myPagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        // 💡💡💡 my page 화면을 담을 패널 (BoxLayout 사용) 💡💡💡
+        JPanel myPagePanel = new JPanel();
+        myPagePanel.setLayout(new BoxLayout(myPagePanel, BoxLayout.Y_AXIS)); // 세로로 컴포넌트 쌓기
+        myPagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 여백 추가
 
+
+        // 💡💡💡 자격증 등록 섹션 패널 💡💡💡
+        JPanel certRegSectionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // 왼쪽 정렬
         JLabel certRegLabel = new JLabel("자격증 등록");
         certRegLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+        JButton addCertButton = new JButton("+"); // 자격증 등록 추가 버튼
+        addCertButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 
-        JButton addButton = new JButton("+");
-        addButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+        certRegSectionPanel.add(certRegLabel);
+        certRegSectionPanel.add(addCertButton);
 
-        myPagePanel.add(certRegLabel);
-        myPagePanel.add(addButton);
+        // 💡💡💡 시험 일정/정보 섹션 패널 💡💡💡
+        JPanel examInfoSectionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // 왼쪽 정렬
+        JLabel examInfoLabel = new JLabel("시험 일정/정보");
+        examInfoLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+        JButton viewExamButton = new JButton("보기"); // 시험 일정 보기 버튼
+        viewExamButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 
-        addButton.addActionListener(new ActionListener() {
+        examInfoSectionPanel.add(examInfoLabel);
+        examInfoSectionPanel.add(viewExamButton);
+
+
+        // 💡💡💡 myPagePanel에 섹션 패널들 추가 💡💡💡
+        myPagePanel.add(certRegSectionPanel);
+        myPagePanel.add(Box.createRigidArea(new Dimension(0, 20))); // 섹션 사이에 간격 추가
+        myPagePanel.add(examInfoSectionPanel);
+
+
+        // 💡💡💡 자격증 등록 추가 버튼 액션 리스너 (기존 코드 이동) 💡💡💡
+        addCertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame inputPopup = new JFrame("내용 추가");
@@ -717,12 +740,21 @@ public class wkqk {
                         String content = inputField.getText();
                         if (!content.trim().isEmpty()) {
                             JOptionPane.showMessageDialog(inputPopup, "추가할 내용: " + content, "확인", JOptionPane.INFORMATION_MESSAGE);
+                            // 여기에 자격증 등록 내용을 저장하는 코드를 추가해야 함!
                             inputPopup.dispose();
                         } else {
                             JOptionPane.showMessageDialog(inputPopup, "내용을 입력하세요.", "경고", JOptionPane.WARNING_MESSAGE);
                         }
                     }
                 });
+            }
+        });
+
+        // 💡💡💡 시험 일정 보기 버튼 액션 리스너 (기능 미구현) 💡💡💡
+        viewExamButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(frame, "시험 일정/정보 보기 기능은 아직 준비 중입니다.", "안내", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
