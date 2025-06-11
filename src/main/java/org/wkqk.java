@@ -280,8 +280,8 @@ public class wkqk {
                                 if (addInquiryButton != null) {
                                     addInquiryButton.setEnabled(true);
                                 }
-                                // 🚨🚨🚨 로그인 성공 시 바로 my page 화면으로 전환하는 코드 삭제! 🚨🚨🚨
-                                // showMyPageContent(frame); // 이 줄을 삭제합니다.
+                                // 로그인 성공 시 바로 my page 화면으로 전환하는 코드 삭제!
+                                // showMyPageContent(frame);
 
                             } else {
                                 JOptionPane.showMessageDialog(loginPopup, "아이디 또는 비밀번호가 올바르지 않습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
@@ -290,7 +290,6 @@ public class wkqk {
                         }
                     });
                 } else if (loginLabel.getText().equals("my page")) {
-                    // my page 글자를 클릭했을 때 my page 화면으로 전환! (이 부분은 그대로 둡니다)
                     showMyPageContent(frame);
                 }
             }
