@@ -33,8 +33,11 @@ public class wkqk {
 
     private static JButton logoutButton;
 
-    // 💡💡💡 초기 공지사항 화면 패널을 static 변수로 선언! 💡💡💡
     private static JPanel initialMainContentPanel;
+
+    // 💡💡💡 관리자 코드 입력 필드와 확인 버튼을 static 변수로 선언! 💡💡💡
+    private static JPasswordField adminCodeField;
+    private static JButton adminCheckButton;
 
 
     public static void main(String[] args) {
@@ -267,7 +270,6 @@ public class wkqk {
                                 loginPopup.dispose();
 
                                 loginLabel.setText("my page");
-                                // 로그인 성공 시 로그아웃 버튼 보이게!
                                 if (logoutButton != null) {
                                     logoutButton.setVisible(true);
                                 }
@@ -381,7 +383,6 @@ public class wkqk {
         noticePanel.add(southButtonPanel, BorderLayout.SOUTH);
         noticePanel.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0));
 
-        // 💡💡💡 초기 공지사항 화면 패널을 static 변수에 할당! 💡💡💡
         initialMainContentPanel = new JPanel(new BorderLayout());
         initialMainContentPanel.add(noticePanel, BorderLayout.WEST);
 
@@ -389,8 +390,9 @@ public class wkqk {
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel topPanel = new JPanel(new BorderLayout());
 
-        JPasswordField adminCodeField = new JPasswordField(4);
-        JButton adminCheckButton = new JButton("관리자 확인");
+        // 💡💡💡 관리자 코드 입력 필드와 확인 버튼을 여기서 초기화합니다! 💡💡💡
+        adminCodeField = new JPasswordField(4);
+        adminCheckButton = new JButton("관리자 확인");
 
         JPanel eastPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
@@ -401,7 +403,6 @@ public class wkqk {
 
         topPanel.add(eastPanel, BorderLayout.EAST);
 
-        // 💡💡💡 프레임의 CENTER에 초기 공지사항 패널 추가! 💡💡💡
         frame.add(initialMainContentPanel, BorderLayout.CENTER);
 
         adminCheckButton.addActionListener(new ActionListener() {
@@ -419,6 +420,7 @@ public class wkqk {
                     if (logoutButton != null) {
                         logoutButton.setVisible(true);
                     }
+
 
                     JFrame adminUserManageFrame = new JFrame("사용자 관리 (관리자)");
                     adminUserManageFrame.setSize(300, 400);
@@ -501,7 +503,17 @@ public class wkqk {
                     deleteButton.setVisible(false); // 관리자 삭제 버튼 숨기기
                     logoutButton.setVisible(false); // 로그아웃 버튼 숨기기
 
-                    // 💡💡💡 현재 CENTER 영역의 내용을 제거하고 초기 공지사항 패널로 교체! 💡💡💡
+                    // 💡💡💡 관리자 코드 입력 필드와 확인 버튼 다시 활성화 및 필드 비우기! 💡💡💡
+                    if (adminCodeField != null) {
+                        adminCodeField.setEnabled(true);
+                        adminCodeField.setText(""); // 입력 필드 비우기
+                    }
+                    if (adminCheckButton != null) {
+                        adminCheckButton.setEnabled(true);
+                    }
+
+
+                    // 현재 CENTER 영역의 내용을 제거하고 초기 공지사항 패널로 교체!
                     BorderLayout layout = (BorderLayout) frame.getContentPane().getLayout();
                     java.awt.Component centerComponent = layout.getLayoutComponent(BorderLayout.CENTER);
 
@@ -509,7 +521,7 @@ public class wkqk {
                         frame.getContentPane().remove(centerComponent);
                     }
 
-                    // 💡💡💡 static으로 선언된 초기 공지사항 패널을 다시 추가! 💡💡💡
+                    // static으로 선언된 초기 공지사항 패널을 다시 추가!
                     frame.getContentPane().add(initialMainContentPanel, BorderLayout.CENTER);
 
                     frame.revalidate();
