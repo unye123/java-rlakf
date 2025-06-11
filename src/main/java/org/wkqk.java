@@ -88,10 +88,26 @@ public class wkqk {
         eastPanel.add(new JLabel("관리자 코드:"));
         eastPanel.add(adminCodeField);
         eastPanel.add(adminCheckButton);
-        
+
         topPanel.add(eastPanel, BorderLayout.EAST);
 
         frame.add(mainContentPanel, BorderLayout.CENTER);
+
+        adminCheckButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                char[] inputCode = adminCodeField.getPassword();
+                String enteredCode = new String(inputCode);
+
+                if (enteredCode.equals((ADMIN_CODE)) {
+                    JOptionPane.showMessageDialog(frame, "관리자 인증 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(frame, "관리자 인증 실패!", "오류", JOptionPane.ERROR_MESSAGE);
+                    adminCodeField.setText(""); // 실패하면 입력 칸 비우기
+                }
+
+            }
+        });
 
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel topPanel = new JPanel(new BorderLayout());
