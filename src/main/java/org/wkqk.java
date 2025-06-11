@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 public class wkqk {
 
@@ -23,6 +25,20 @@ public class wkqk {
 
         JLabel loginLabel = new JLabel("로그인");
         loginLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+
+        loginLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                JFrame loginPopup = new JFrame("로그인");
+                loginPopup.setSize(300, 200);
+                loginPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                jPanel inputPanel = new JPanel();
+                loginMainPanel.setBorder(BoderFactory.createEmptyBorder(10, 10, 10, 10));
+
+
+            }
+            }
 
         JLabel noticeLabel = new JLabel("공지사항");
         noticeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
