@@ -22,6 +22,7 @@ public class wkqk {
 
     private static List<String> registeredIds = new ArrayList<>();
     private static Map<String, String> users = new HashMap<>();
+    private static Map<String, Map<String, String>> userDetails = new HashMap<>();
 
 
     public static void main(String[] args) {
@@ -32,6 +33,24 @@ public class wkqk {
         users.put("admin", "admin123");
         users.put("user1", "pass123");
         users.put("test", "testpass");
+
+        Map<String, String> adminDetails = new HashMap<>();
+        adminDetails.put("name", "관리자");
+        adminDetails.put("studentId", "00000000");
+        adminDetails.put("major", "컴퓨터공학");
+        userDetails.put("admin", adminDetails);
+
+        Map<String, String> user1Details = new HashMap<>();
+        user1Details.put("name", "사용자1");
+        user1Details.put("studentId", "20221234");
+        user1Details.put("major", "소프트웨어");
+        userDetails.put("user1", user1Details);
+
+        Map<String, String> testDetails = new HashMap<>();
+        testDetails.put("name", "테스트");
+        testDetails.put("studentId", "20235678");
+        testDetails.put("major", "디자인");
+        userDetails.put("test", testDetails);
 
 
         JFrame frame = new JFrame("자격증 홈페이지");
@@ -46,7 +65,7 @@ public class wkqk {
         loginLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                JFrame loginPopup = new JFrame("로그인");
+                final JFrame loginPopup = new JFrame("로그인");
                 loginPopup.setSize(300, 200);
                 loginPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -78,7 +97,7 @@ public class wkqk {
                 signupLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseReleased(MouseEvent e) {
-                        JFrame signupPopup = new JFrame("회원가입");
+                        final JFrame signupPopup = new JFrame("회원가입");
                         signupPopup.setSize(400, 300);
                         signupPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -90,12 +109,12 @@ public class wkqk {
                         JPanel idInputAndButtonPanel = new JPanel();
                         idInputAndButtonPanel.setLayout(new BoxLayout(idInputAndButtonPanel, BoxLayout.X_AXIS));
 
-                        JTextField signupIdField = new JTextField(10);
+                        final JTextField signupIdField = new JTextField(10);
                         signupIdField.setPreferredSize(new Dimension(150, 25));
                         signupIdField.setMaximumSize(new Dimension(150, 25));
 
 
-                        JButton checkIdButton = new JButton("중복 확인");
+                        final JButton checkIdButton = new JButton("중복 확인");
 
                         idInputAndButtonPanel.add(signupIdField);
                         idInputAndButtonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -104,25 +123,61 @@ public class wkqk {
                         signupInputPanel.add(new JLabel("아이디:"));
                         signupInputPanel.add(idInputAndButtonPanel);
 
-
+                        final JPasswordField signupPwField = new JPasswordField();
                         signupInputPanel.add(new JLabel("비밀번호:"));
-                        signupInputPanel.add(new JPasswordField());
+                        signupInputPanel.add(signupPwField);
 
+                        final JTextField signupNameField = new JTextField();
                         signupInputPanel.add(new JLabel("이름:"));
-                        signupInputPanel.add(new JTextField());
+                        signupInputPanel.add(signupNameField);
 
+                        final JTextField signupStudentIdField = new JTextField();
                         signupInputPanel.add(new JLabel("학번:"));
-                        signupInputPanel.add(new JTextField());
+                        signupInputPanel.add(signupStudentIdField);
 
+                        final JTextField signupMajorField = new JTextField();
                         signupInputPanel.add(new JLabel("학과:"));
-                        signupInputPanel.add(new JTextField());
+                        signupInputPanel.add(signupMajorField);
 
                         JPanel signupButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-                        JButton registerButton = new JButton("가입하기");
+                        final JButton registerButton = new JButton("가입하기");
+                        registerButton.setEnabled(false);
+
+                        final boolean[] isIdCheckedAndAvailable = {false};
+
                         registerButton.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent registerE) {
-                                JOptionPane.showMessageDialog(signupPopup, "회원가입 시도 (기능 미구현)", "안내", JOptionPane.INFORMATION_MESSAGE);
+                                if (isIdCheckedAndAvailable[0]) {
+                                    String newId = signupIdField.getText();
+                                    char[] newPwChars = signupPwField.getPassword();
+                                    String newPassword = new String(newPwChars);
+                                    String newName = signupNameField.getText();
+                                    String newStudentId = signupStudentIdField.getText();
+                                    String newMajor = signupMajorField.getText();
+
+                                    if (newId.isEmpty() || newPassword.isEmpty()) {
+                                        JOptionPane.showMessageDialog(signupPopup, "아이디와 비밀번호는 필수 입력입니다.", "경고", JOptionPane.WARNING_MESSAGE);
+                                        return;
+                                    }
+
+                                    registeredIds.add(newId);
+                                    users.put(newId, newPassword);
+                                    Map<String, String> details = new HashMap<>();
+                                    details.put("name", newName);
+                                    details.put("studentId", newStudentId);
+                                    details.put("major", newMajor);
+                                    userDetails.put(newId, details);
+
+
+                                    JOptionPane.showMessageDialog(signupPopup, "회원가입 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
+
+                                    signupPopup.dispose();
+                                    loginPopup.setVisible(true);
+
+                                } else {
+                                    JOptionPane.showMessageDialog(signupPopup, "아이디 중복 확인을 먼저 해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
+                                }
                             }
                         });
                         signupButtonPanel.add(registerButton);
@@ -143,11 +198,17 @@ public class wkqk {
 
                                 if (enteredId.isEmpty()) {
                                     JOptionPane.showMessageDialog(signupPopup, "아이디를 입력하세요.", "경고", JOptionPane.WARNING_MESSAGE);
+                                    isIdCheckedAndAvailable[0] = false;
+                                    registerButton.setEnabled(false);
                                 } else {
                                     if (registeredIds.contains(enteredId)) {
                                         JOptionPane.showMessageDialog(signupPopup, "이미 사용 중인 아이디입니다.", "중복 확인", JOptionPane.WARNING_MESSAGE);
+                                        isIdCheckedAndAvailable[0] = false;
+                                        registerButton.setEnabled(false);
                                     } else {
                                         JOptionPane.showMessageDialog(signupPopup, "사용 가능한 아이디입니다.", "중복 확인", JOptionPane.INFORMATION_MESSAGE);
+                                        isIdCheckedAndAvailable[0] = true;
+                                        registerButton.setEnabled(true);
                                     }
                                 }
                             }
