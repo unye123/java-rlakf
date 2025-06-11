@@ -35,9 +35,10 @@ public class wkqk {
 
     private static JPanel initialMainContentPanel;
 
-    // 관리자 코드 입력 필드와 확인 버튼을 static 변수로 선언
     private static JPasswordField adminCodeField;
     private static JButton adminCheckButton;
+
+    private static JButton addInquiryButton;
 
 
     public static void main(String[] args) {
@@ -68,10 +69,8 @@ public class wkqk {
             }
         });
 
-        // 💡💡💡 관리자 코드 입력 필드와 확인 버튼을 여기서 초기화합니다! 💡💡💡
         adminCodeField = new JPasswordField(4);
         adminCheckButton = new JButton("관리자 확인");
-        // 💡💡💡 초기화 위치를 옮겼습니다. 💡💡💡
 
 
         JLabel logoLabel = new JLabel("lee Certificate");
@@ -278,7 +277,11 @@ public class wkqk {
                                 if (logoutButton != null) {
                                     logoutButton.setVisible(true);
                                 }
-                                showMyPageContent(frame);
+                                if (addInquiryButton != null) {
+                                    addInquiryButton.setEnabled(true);
+                                }
+                                // 🚨🚨🚨 로그인 성공 시 바로 my page 화면으로 전환하는 코드 삭제! 🚨🚨🚨
+                                // showMyPageContent(frame); // 이 줄을 삭제합니다.
 
                             } else {
                                 JOptionPane.showMessageDialog(loginPopup, "아이디 또는 비밀번호가 올바르지 않습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
@@ -287,6 +290,7 @@ public class wkqk {
                         }
                     });
                 } else if (loginLabel.getText().equals("my page")) {
+                    // my page 글자를 클릭했을 때 my page 화면으로 전환! (이 부분은 그대로 둡니다)
                     showMyPageContent(frame);
                 }
             }
@@ -400,8 +404,10 @@ public class wkqk {
         inquiryArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         inquiryArea.setText("문의 내용이 여기에 표시됩니다."); // 예시 텍스트
 
-        JButton addInquiryButton = new JButton("+");
+        addInquiryButton = new JButton("+");
         addInquiryButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+        addInquiryButton.setEnabled(false); // 처음에는 비활성화!
+
 
         JPanel inquiryButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         inquiryButtonPanel.add(addInquiryButton);
@@ -425,7 +431,6 @@ public class wkqk {
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel topPanel = new JPanel(new BorderLayout());
 
-        // 관리자 코드 입력 필드와 확인 버튼을 여기서 초기화합니다.
         adminCodeField = new JPasswordField(4);
         adminCheckButton = new JButton("관리자 확인");
 
@@ -454,6 +459,9 @@ public class wkqk {
                     deleteButton.setVisible(true);
                     if (logoutButton != null) {
                         logoutButton.setVisible(true);
+                    }
+                    if (addInquiryButton != null) {
+                        addInquiryButton.setEnabled(true);
                     }
 
 
@@ -511,6 +519,9 @@ public class wkqk {
                     if (logoutButton != null) {
                         logoutButton.setVisible(false);
                     }
+                    if (addInquiryButton != null) {
+                        addInquiryButton.setEnabled(false);
+                    }
                 }
             }
         });
@@ -543,6 +554,9 @@ public class wkqk {
                     }
                     if (adminCheckButton != null) {
                         adminCheckButton.setEnabled(true);
+                    }
+                    if (addInquiryButton != null) {
+                        addInquiryButton.setEnabled(false);
                     }
 
 
