@@ -58,12 +58,21 @@ public class wkqk {
                         "10. 문의는 홈페이지 Q&A를 이용하세요.\n" +
                         "11. 재시험 일정은 별도 공지됩니다.\n" +
                         "12. 모의고사 일정은 추후 안내됩니다.\n");
-            }
-        }));
+
                 JScrollPane scrollPane = new JScrollPane(fullNoticeArea);
                 popup.add(scrollPane);
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
+            }
+        }));
+
+        JPanel noticePanel = new JPanel();
+
+        JPanel mainContentPanel = new JPanel();
+        mainContentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        mainContentPanel.add(noticePanel);
+
+        frame.add(mainContentPanel, BorderLayout.CENTER);
 
         JPanel noticePanel = new JPanel();
         noticePanel.setLayout(new BorderLayout());
@@ -71,16 +80,15 @@ public class wkqk {
         noticePanel.add(noticeArea, BorderLayout.CENTER);
         noticePanel.add(moreButton, BorderLayout.SOUTH);
 
-        frame.add(noticePanel, BorderLayout.CENTER);
-
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel topPanel = new JPanel(new BorderLayout());
 
+        topPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(logoLabel);
-
         topPanel.add(loginLabel, BorderLayout.EAST);
+
         frame.add(topPanel, BorderLayout.NORTH);
-        frame.add(centerNoticePanel, BorderLayout.CENTER);
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
