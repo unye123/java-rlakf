@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class wkqk {
+
+    private  static final String ADMIN_CODE = "4724";
+
     public static void main(String[] args) {
 
         JFrame frame = new JFrame("자격증 홈페이지");
@@ -67,16 +70,30 @@ public class wkqk {
         }));
 
         JPanel noticePanel = new JPanel();
+        noticePanel.setLayout(new BorderLayout());
+        noticePanel.add(noticeLabel, BorderLayout.NORTH);
+        noticePanel.add(noticeArea, BorderLayout.CENTER);
+        noticePanel.add(moreButton, BorderLayout.SOUTH);
 
         JPanel mainContentPanel = new JPanel();
         mainContentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         mainContentPanel.add(noticePanel);
 
+        JPasswordField adminCodeField = new JPasswordField(4);
+        JButton adminCheckButton = new JButton("관리자 확인");
+
+        JPanel eastPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        eastPanel.add(loginLabel);
+        eastPanel.add(new JLabel("관리자 코드:"));
+        eastPanel.add(adminCodeField);
+        eastPanel.add(adminCheckButton);
+
+
         frame.add(mainContentPanel, BorderLayout.CENTER);
 
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel topPanel = new JPanel(new BorderLayout());
-        mainContentPanel.add(noticePanel);
 
         topPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(logoLabel);
