@@ -123,9 +123,23 @@ public class wkqk {
                         signupInputPanel.add(new JLabel("아이디:"));
                         signupInputPanel.add(idInputAndButtonPanel);
 
+                        JPanel pwInputAndLabelPanel = new JPanel();
+                        pwInputAndLabelPanel.setLayout(new BoxLayout(pwInputAndLabelPanel, BoxLayout.Y_AXIS));
+
                         final JPasswordField signupPwField = new JPasswordField();
+                        signupPwField.setPreferredSize(new Dimension(150, 25));
+                        signupPwField.setMaximumSize(new Dimension(150, 25));
+
+                        JLabel pwHintLabel = new JLabel("5자리 이상");
+                        pwHintLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
+                        pwHintLabel.setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+
+                        pwInputAndLabelPanel.add(signupPwField);
+                        pwInputAndLabelPanel.add(pwHintLabel);
+
                         signupInputPanel.add(new JLabel("비밀번호:"));
-                        signupInputPanel.add(signupPwField);
+                        signupInputPanel.add(pwInputAndLabelPanel);
+
 
                         final JTextField signupNameField = new JTextField();
                         signupInputPanel.add(new JLabel("이름:"));
@@ -160,6 +174,12 @@ public class wkqk {
                                         JOptionPane.showMessageDialog(signupPopup, "아이디와 비밀번호는 필수 입력입니다.", "경고", JOptionPane.WARNING_MESSAGE);
                                         return;
                                     }
+
+                                    if (newPassword.length() < 5) {
+                                        JOptionPane.showMessageDialog(signupPopup, "비밀번호는 5자리 이상이어야 합니다.", "경고", JOptionPane.WARNING_MESSAGE);
+                                        return;
+                                    }
+
 
                                     registeredIds.add(newId);
                                     users.put(newId, newPassword);
