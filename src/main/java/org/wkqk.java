@@ -88,7 +88,8 @@ public class wkqk {
         eastPanel.add(new JLabel("관리자 코드:"));
         eastPanel.add(adminCodeField);
         eastPanel.add(adminCheckButton);
-
+        
+        topPanel.add(eastPanel, BorderLayout.EAST);
 
         frame.add(mainContentPanel, BorderLayout.CENTER);
 
