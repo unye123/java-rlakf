@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class wkqk {
 
-    private  static final String ADMIN_CODE = "4724";
+    private static final String ADMIN_CODE = "4724";
 
     public static void main(String[] args) {
 
@@ -79,6 +79,9 @@ public class wkqk {
         mainContentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         mainContentPanel.add(noticePanel);
 
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel topPanel = new JPanel(new BorderLayout());
+
         JPasswordField adminCodeField = new JPasswordField(4);
         JButton adminCheckButton = new JButton("관리자 확인");
 
@@ -99,22 +102,17 @@ public class wkqk {
                 char[] inputCode = adminCodeField.getPassword();
                 String enteredCode = new String(inputCode);
 
-                if (enteredCode.equals((ADMIN_CODE)) {
+                if (enteredCode.equals(ADMIN_CODE)) {
                     JOptionPane.showMessageDialog(frame, "관리자 인증 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(frame, "관리자 인증 실패!", "오류", JOptionPane.ERROR_MESSAGE);
-                    adminCodeField.setText(""); // 실패하면 입력 칸 비우기
+                    adminCodeField.setText("");
                 }
-
             }
         });
 
-        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JPanel topPanel = new JPanel(new BorderLayout());
-
         topPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(logoLabel);
-        topPanel.add(loginLabel, BorderLayout.EAST);
 
         frame.add(topPanel, BorderLayout.NORTH);
 
