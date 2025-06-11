@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 public class wkqk {
 
     private static final String ADMIN_CODE = "4724";
+    private  static boolean isAdminVerified = false;
+    private static JTextArea noticeArea;
 
     public static void main(String[] args) {
 
@@ -24,7 +26,7 @@ public class wkqk {
         JLabel noticeLabel = new JLabel("공지사항");
         noticeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 
-        JTextArea noticeArea = new JTextArea(10, 50);
+        noticeArea = new JTextArea(10, 50);
         noticeArea.setEditable(false);
         noticeArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         noticeArea.setText( "1. 자격증 접수는 6월 20일까지입니다.\n" +
