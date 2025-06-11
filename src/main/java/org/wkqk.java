@@ -31,7 +31,6 @@ public class wkqk {
 
     private static final String DATA_FILE = "app_data.dat";
 
-    // 💡💡💡 로그아웃 버튼 변수 추가! 💡💡💡
     private static JButton logoutButton;
 
 
@@ -265,7 +264,7 @@ public class wkqk {
                                 loginPopup.dispose();
 
                                 loginLabel.setText("my page");
-                                // 💡💡💡 로그인 성공 시 로그아웃 버튼 보이게! 💡💡💡
+                                // 로그인 성공 시 로그아웃 버튼 보이게!
                                 if (logoutButton != null) {
                                     logoutButton.setVisible(true);
                                 }
@@ -417,6 +416,11 @@ public class wkqk {
                     adminCodeField.setEnabled(false);
                     adminCheckButton.setEnabled(false);
                     deleteButton.setVisible(true);
+                    // 💡💡💡 관리자 인증 성공 시 로그아웃 버튼 보이게! 💡💡💡
+                    if (logoutButton != null) {
+                        logoutButton.setVisible(true);
+                    }
+
 
                     JFrame adminUserManageFrame = new JFrame("사용자 관리 (관리자)");
                     adminUserManageFrame.setSize(300, 400);
@@ -469,6 +473,10 @@ public class wkqk {
                     adminCodeField.setText("");
                     isAdminVerified = false;
                     deleteButton.setVisible(false);
+                    // 💡💡💡 관리자 인증 실패 시 로그아웃 버튼 숨기기! 💡💡💡
+                    if (logoutButton != null) {
+                        logoutButton.setVisible(false);
+                    }
                 }
             }
         });
@@ -478,12 +486,10 @@ public class wkqk {
 
         frame.add(topPanel, BorderLayout.NORTH);
 
-        // 💡💡💡 로그아웃 버튼 생성 및 추가! 💡💡💡
         logoutButton = new JButton("로그아웃");
         logoutButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        logoutButton.setVisible(false); // 처음에는 안 보이게
+        logoutButton.setVisible(false);
 
-        // 💡💡💡 로그아웃 버튼 액션 리스너 추가! 💡💡💡
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -492,13 +498,11 @@ public class wkqk {
                         JOptionPane.YES_NO_OPTION);
 
                 if (confirm == JOptionPane.YES_OPTION) {
-                    // 💡💡💡 로그아웃 처리 로직 💡💡💡
-                    loginLabel.setText("로그인"); // 'my page'를 다시 '로그인'으로 변경
-                    isAdminVerified = false; // 관리자 인증 상태 초기화
-                    deleteButton.setVisible(false); // 관리자 삭제 버튼 숨기기
-                    logoutButton.setVisible(false); // 로그아웃 버튼 숨기기
+                    loginLabel.setText("로그인");
+                    isAdminVerified = false;
+                    deleteButton.setVisible(false);
+                    logoutButton.setVisible(false);
 
-                    // 💡💡💡 화면을 초기 공지사항 화면으로 되돌리기 💡💡💡
                     BorderLayout layout = (BorderLayout) frame.getContentPane().getLayout();
                     java.awt.Component centerComponent = layout.getLayoutComponent(BorderLayout.CENTER);
 
@@ -506,7 +510,6 @@ public class wkqk {
                         frame.getContentPane().remove(centerComponent);
                     }
 
-                    // 초기 공지사항 패널을 다시 생성하거나, 이미 만들어진 패널을 사용 (여기서는 다시 생성)
                     JPanel southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
                     southButtonPanel.add(deleteButton);
                     southButtonPanel.add(moreButton);
@@ -533,10 +536,9 @@ public class wkqk {
             }
         });
 
-        // 💡💡💡 로그아웃 버튼을 프레임의 SOUTH 영역에 추가! 💡💡💡
-        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // 오른쪽 정렬 패널
-        southPanel.add(logoutButton); // 로그아웃 버튼 추가
-        frame.add(southPanel, BorderLayout.SOUTH); // 프레임의 SOUTH 영역에 패널 추가
+        JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        southPanel.add(logoutButton);
+        frame.add(southPanel, BorderLayout.SOUTH);
 
 
         frame.setLocationRelativeTo(null);
@@ -611,15 +613,15 @@ public class wkqk {
 
         if (noticeArea != null) {
             noticeArea.setText( "1. 자격증 접수는 6월 20일까지입니다.\n" +
-                            "2. 시험 일정은 7월 1일입니다.\n" +
-                            "3. 응시자 유의사항을 꼭 확인하세요.\n" +
-                            "4. 마감일 전까지 사진 등록 필수입니다.\n" +
-                            "5. 신분증 지참 필수.\n" +
-                            "6. 자리 배정표는 시험 하루 전 제공.\n" +
-                            "7. 시험 장소는 추후 공지 예정.\n" +
-                            "8. 준비물은 개별 확인 요망.\n" +
+                    "2. 시험 일정은 7월 1일입니다.\n" +
+                    "3. 응시자 유의사항을 꼭 확인하세요.\n" +
+                    "4. 마감일 전까지 사진 등록 필수입니다.\n" +
+                    "5. 신분증 지참 필수.\n" +
+                    "6. 자리 배정표는 시험 하루 전 제공.\n" +
+                    "7. 시험 장소는 추후 공지 예정.\n" +
+                    "8. 준비물은 개별 확인 요망.\n" +
                     "9. 합격 발표는 8월 초 예정.\n" +
-                            "10. 문의는 홈페이지 Q&A를 이용하세요.");
+                    "10. 문의는 홈페이지 Q&A를 이용하세요.");
         }
     }
 
