@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.awt.Dimension;
+import javax.swing.DefaultListModel; // 💡💡💡 DefaultListModel 추가! 💡💡💡
 
 public class wkqk {
 
@@ -405,6 +406,59 @@ public class wkqk {
                     adminCodeField.setEnabled(false);
                     adminCheckButton.setEnabled(false);
                     deleteButton.setVisible(true);
+
+                    // 💡💡💡 관리자 인증 성공 시 사용자 관리 창 띄우기! 💡💡💡
+                    JFrame adminUserManageFrame = new JFrame("사용자 관리 (관리자)");
+                    adminUserManageFrame.setSize(300, 400);
+                    adminUserManageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    adminUserManageFrame.setLayout(new BorderLayout());
+
+                    // 💡💡💡 아이디 목록을 보여줄 JList와 모델 생성 💡💡💡
+                    DefaultListModel<String> userListModel = new DefaultListModel<>();
+                    for (String id : registeredIds) {
+                        userListModel.addElement(id); // 현재 등록된 아이디들을 모델에 추가
+                    }
+                    JList<String> userList = new JList<>(userListModel); // 모델을 JList에 연결
+                    JScrollPane listScrollPane = new JScrollPane(userList); // 스크롤 기능 추가
+
+                    // 💡💡💡 삭제 버튼 생성 💡💡💡
+                    JButton deleteUserButton = new JButton("선택된 사용자 삭제");
+                    deleteUserButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent deleteE) {
+                            String selectedId = userList.getSelectedValue(); // 목록에서 선택된 아이디 가져오기
+
+                            if (selectedId != null) { // 선택된 아이디가 있다면
+                                int confirm = JOptionPane.showConfirmDialog(adminUserManageFrame,
+                                        selectedId + " 사용자를 정말 삭제하시겠습니까?", "사용자 삭제 확인",
+                                        JOptionPane.YES_NO_OPTION);
+
+                                if (confirm == JOptionPane.YES_OPTION) {
+                                    // 💡💡💡 데이터 구조에서 아이디 및 관련 정보 삭제 💡💡💡
+                                    registeredIds.remove(selectedId);
+                                    users.remove(selectedId);
+                                    userDetails.remove(selectedId);
+
+                                    // 💡💡💡 JList 모델에서도 삭제해서 화면 업데이트 💡💡💡
+                                    userListModel.removeElement(selectedId);
+
+                                    JOptionPane.showMessageDialog(adminUserManageFrame, selectedId + " 사용자가 삭제되었습니다.", "삭제 완료", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                            } else { // 선택된 아이디가 없다면
+                                JOptionPane.showMessageDialog(adminUserManageFrame, "삭제할 사용자를 선택하세요.", "안내", JOptionPane.WARNING_MESSAGE);
+                            }
+                        }
+                    });
+
+                    // 💡💡💡 관리자 창에 컴포넌트 추가 💡💡💡
+                    adminUserManageFrame.add(new JLabel("가입된 사용자 아이디 목록:", SwingConstants.CENTER), BorderLayout.NORTH);
+                    adminUserManageFrame.add(listScrollPane, BorderLayout.CENTER); // 아이디 목록 (스크롤 포함)
+                    adminUserManageFrame.add(deleteUserButton, BorderLayout.SOUTH); // 삭제 버튼
+
+                    adminUserManageFrame.setLocationRelativeTo(frame); // 메인 프레임 중앙에 띄우기
+                    adminUserManageFrame.setVisible(true);
+
+
                 } else {
                     JOptionPane.showMessageDialog(frame, "관리자 인증 실패!", "오류", JOptionPane.ERROR_MESSAGE);
                     adminCodeField.setText("");
