@@ -21,7 +21,7 @@ public class wkqk {
         JLabel noticeLabel = new JLabel("공지사항");
         noticeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
 
-        JTextArea noticeArea = new jtextArea(10, 50);
+        JTextArea noticeArea = new JTextArea(10, 50);
         noticeArea.setEditable(false);
         noticeArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         noticeArea.setText( "1. 자격증 접수는 6월 20일까지입니다.\n" +
@@ -60,10 +60,10 @@ public class wkqk {
                         "12. 모의고사 일정은 추후 안내됩니다.\n");
             }
         }));
-        JScrollPane scrollPane = new JScrollPane(fullNoticeArea);
-        popup.add(scrollPane);
-        popup.setLocationRelativeTo(null);
-        popup.setVisible(true);
+                JScrollPane scrollPane = new JScrollPane(fullNoticeArea);
+                popup.add(scrollPane);
+                popup.setLocationRelativeTo(null);
+                popup.setVisible(true);
 
         JPanel noticePanel = new JPanel();
         noticePanel.setLayout(new BorderLayout());
@@ -75,11 +75,6 @@ public class wkqk {
 
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel topPanel = new JPanel(new BorderLayout());
-
-        JPanel centerNoticePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        centerNoticePanel.add(noticeLabel);
-
-        topPanel.add(centerPanel, BorderLayout.CENTER);
 
         centerPanel.add(logoLabel);
 
