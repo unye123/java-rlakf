@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Dimension;
 
 public class wkqk {
 
@@ -79,15 +80,23 @@ public class wkqk {
 
                         JPanel signupInputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
 
-                        JPanel idInputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+                        JPanel idInputAndButtonPanel = new JPanel();
+                        idInputAndButtonPanel.setLayout(new BoxLayout(idInputAndButtonPanel, BoxLayout.X_AXIS));
+
                         JTextField signupIdField = new JTextField(10);
+                        // 💡💡💡 아이디 입력 필드의 선호 크기 설정! 💡💡💡
+                        signupIdField.setPreferredSize(new Dimension(150, 25)); // 예시 크기 (가로 150, 세로 25)
+                        signupIdField.setMaximumSize(new Dimension(150, 25)); // 최대 크기도 설정 (BoxLayout에 힌트 제공)
+
+
                         JButton checkIdButton = new JButton("중복 확인");
 
-                        idInputPanel.add(signupIdField);
-                        idInputPanel.add(checkIdButton);
+                        idInputAndButtonPanel.add(signupIdField);
+                        idInputAndButtonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+                        idInputAndButtonPanel.add(checkIdButton);
 
                         signupInputPanel.add(new JLabel("아이디:"));
-                        signupInputPanel.add(idInputPanel);
+                        signupInputPanel.add(idInputAndButtonPanel);
 
 
                         signupInputPanel.add(new JLabel("비밀번호:"));
