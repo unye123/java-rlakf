@@ -61,7 +61,48 @@ public class wkqk {
                 signupLabel.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseReleased(MouseEvent e) {
-                        JOptionPane.showMessageDialog(loginPopup, "회원가입 기능은 아직 준비 중입니다.", "안내", JOptionPane.INFORMATION_MESSAGE);
+                        JFrame signupPopup = new JFrame("회원가입");
+                        signupPopup.setSize(400, 300);
+                        signupPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                        JPanel signupMainPanel = new JPanel(new BorderLayout());
+                        signupMainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+                        JPanel signupInputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
+
+                        signupInputPanel.add(new JLabel("아이디:"));
+                        signupInputPanel.add(new JTextField());
+
+                        signupInputPanel.add(new JLabel("비밀번호:"));
+                        signupInputPanel.add(new JPasswordField());
+
+                        signupInputPanel.add(new JLabel("이름:"));
+                        signupInputPanel.add(new JTextField());
+
+                        signupInputPanel.add(new JLabel("학번:"));
+                        signupInputPanel.add(new JTextField());
+
+                        signupInputPanel.add(new JLabel("학과:"));
+                        signupInputPanel.add(new JTextField());
+
+                        JPanel signupButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                        JButton registerButton = new JButton("가입하기");
+                        registerButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent registerE) {
+                                JOptionPane.showMessageDialog(signupPopup, "회원가입 시도 (기능 미구현)", "안내", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        });
+                        signupButtonPanel.add(registerButton);
+
+
+                        signupMainPanel.add(signupInputPanel, BorderLayout.CENTER);
+                        signupMainPanel.add(signupButtonPanel, BorderLayout.SOUTH);
+
+                        signupPopup.add(signupMainPanel);
+
+                        signupPopup.setLocationRelativeTo(loginPopup);
+                        signupPopup.setVisible(true);
                     }
                 });
 
@@ -147,7 +188,7 @@ public class wkqk {
                         public void actionPerformed(ActionEvent addE) {
                             String newNotice = newNoticeInputArea.getText();
                             if (!newNotice.trim().isEmpty()) {
-                                noticeArea.append("\n" + newNotice);
+                                noticeArea.append("\n" + (noticeArea.getText().trim().isEmpty() ? "" : "\n") + newNotice);
                                 addNoticePopup.dispose();
                             } else {
                                 JOptionPane.showMessageDialog(addNoticePopup, "추가할 내용을 입력하세요.", "경고", JOptionPane.WARNING_MESSAGE);
