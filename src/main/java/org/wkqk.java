@@ -10,6 +10,7 @@ public class wkqk {
     private static final String ADMIN_CODE = "4724";
     private static boolean isAdminVerified = false;
     private static JTextArea noticeArea;
+    private static JButton deleteButton;
 
     public static void main(String[] args) {
 
@@ -42,6 +43,28 @@ public class wkqk {
 
         JButton moreButton = new JButton("+");
         moreButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+
+        deleteButton = new JButton("-");
+        deleteButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+        deleteButton.setVisible(false);
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedText = noticeArea.getSelectedText();
+
+                if (selectedText != null && !selectedText.isEmpty()) {
+                    String fullText = noticeArea.getText();
+                    String newText = fullText.replace(selectedText, "");
+                    noticeArea.setText(newText);
+
+                    JOptionPane.showMessageDialog(frame, "선택된 공지사항 내용이 삭제되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(frame, "삭제할 내용을 선택하세요.", "안내", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+
 
         moreButton.addActionListener((new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -94,11 +117,16 @@ public class wkqk {
             }
         }));
 
+        JPanel southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        southButtonPanel.add(deleteButton);
+        southButtonPanel.add(moreButton);
+
         JPanel noticePanel = new JPanel();
         noticePanel.setLayout(new BorderLayout());
         noticePanel.add(noticeLabel, BorderLayout.NORTH);
         noticePanel.add(noticeArea, BorderLayout.CENTER);
-        noticePanel.add(moreButton, BorderLayout.SOUTH);
+        noticePanel.add(southButtonPanel, BorderLayout.SOUTH);
+
 
         JPanel mainContentPanel = new JPanel();
         mainContentPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -132,10 +160,12 @@ public class wkqk {
                     isAdminVerified = true;
                     adminCodeField.setEnabled(false);
                     adminCheckButton.setEnabled(false);
+                    deleteButton.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(frame, "관리자 인증 실패!", "오류", JOptionPane.ERROR_MESSAGE);
                     adminCodeField.setText("");
                     isAdminVerified = false;
+                    deleteButton.setVisible(false);
                 }
             }
         });
