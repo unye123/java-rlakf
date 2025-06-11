@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class wkqk {
 
@@ -25,7 +25,6 @@ public class wkqk {
 
         JLabel loginLabel = new JLabel("로그인");
         loginLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-
         loginLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -33,12 +32,60 @@ public class wkqk {
                 loginPopup.setSize(300, 200);
                 loginPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                jPanel inputPanel = new JPanel();
-                loginMainPanel.setBorder(BoderFactory.createEmptyBorder(10, 10, 10, 10));
+                JPanel loginMainPanel = new JPanel(new BorderLayout());
+                loginMainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+                JPanel inputPanel = new JPanel();
+                inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+
+                JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                idPanel.add(new JLabel("아이디:"));
+                JTextField idField = new JTextField(15);
+                idPanel.add(idField);
+                inputPanel.add(idPanel);
+
+                JPanel pwPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                pwPanel.add(new JLabel("비밀번호:"));
+                JPasswordField pwField = new JPasswordField(15);
+                pwPanel.add(pwField);
+                inputPanel.add(pwPanel);
+
+                JPanel loginButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                JButton loginButton = new JButton("로그인");
+                loginButtonPanel.add(loginButton);
+                inputPanel.add(loginButtonPanel);
+
+                JLabel signupLabel = new JLabel("회원가입");
+                signupLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+                signupLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        JOptionPane.showMessageDialog(loginPopup, "회원가입 기능은 아직 준비 중입니다.", "안내", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
 
 
+                loginMainPanel.add(inputPanel, BorderLayout.CENTER);
+                loginMainPanel.add(signupLabel, BorderLayout.SOUTH);
+
+                loginPopup.add(loginMainPanel);
+
+                loginPopup.setLocationRelativeTo(frame);
+                loginPopup.setVisible(true);
+
+                loginButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent loginE) {
+                        String enteredId = idField.getText();
+                        char[] enteredPw = pwField.getPassword();
+                        String password = new String(enteredPw);
+
+                        JOptionPane.showMessageDialog(loginPopup, "입력된 아이디: " + enteredId + "\n입력된 비밀번호: " + password, "로그인 시도", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
             }
-            }
+        });
+
 
         JLabel noticeLabel = new JLabel("공지사항");
         noticeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
