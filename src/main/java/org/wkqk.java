@@ -35,7 +35,7 @@ public class wkqk {
 
     private static JPanel initialMainContentPanel;
 
-    // 💡💡💡 관리자 코드 입력 필드와 확인 버튼을 static 변수로 선언! 💡💡💡
+    // 관리자 코드 입력 필드와 확인 버튼을 static 변수로 선언
     private static JPasswordField adminCodeField;
     private static JButton adminCheckButton;
 
@@ -67,6 +67,11 @@ public class wkqk {
                 System.exit(0);
             }
         });
+
+        // 💡💡💡 관리자 코드 입력 필드와 확인 버튼을 여기서 초기화합니다! 💡💡💡
+        adminCodeField = new JPasswordField(4);
+        adminCheckButton = new JButton("관리자 확인");
+        // 💡💡💡 초기화 위치를 옮겼습니다. 💡💡💡
 
 
         JLabel logoLabel = new JLabel("lee Certificate");
@@ -386,11 +391,41 @@ public class wkqk {
         initialMainContentPanel = new JPanel(new BorderLayout());
         initialMainContentPanel.add(noticePanel, BorderLayout.WEST);
 
+        // 문의하기 섹션 컴포넌트 생성 및 패널 구성
+        JLabel inquiryLabel = new JLabel("문의하기");
+        inquiryLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+
+        JTextArea inquiryArea = new JTextArea(10, 30); // 공지사항과 같은 크기
+        inquiryArea.setEditable(false);
+        inquiryArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+        inquiryArea.setText("문의 내용이 여기에 표시됩니다."); // 예시 텍스트
+
+        JButton addInquiryButton = new JButton("+");
+        addInquiryButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+
+        JPanel inquiryButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        inquiryButtonPanel.add(addInquiryButton);
+
+        JPanel inquiryPanel = new JPanel();
+        inquiryPanel.setLayout(new BorderLayout());
+        inquiryPanel.add(inquiryLabel, BorderLayout.NORTH);
+        JScrollPane inquiryScrollPane = new JScrollPane(inquiryArea);
+        inquiryScrollPane.setPreferredSize(inquiryArea.getPreferredSize()); // noticeArea와 같은 선호 크기 설정
+        inquiryPanel.add(inquiryScrollPane, BorderLayout.CENTER);
+        inquiryPanel.add(inquiryButtonPanel, BorderLayout.SOUTH);
+
+        // 문의하기 패널 오른쪽에 여백(Border) 추가!
+        inquiryPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 70)); // 위, 왼쪽, 아래, 오른쪽(70) 여백 설정
+
+
+        // 초기 메인 콘텐츠 패널에 문의하기 패널을 EAST 영역에 추가!
+        initialMainContentPanel.add(inquiryPanel, BorderLayout.EAST);
+
 
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel topPanel = new JPanel(new BorderLayout());
 
-        // 💡💡💡 관리자 코드 입력 필드와 확인 버튼을 여기서 초기화합니다! 💡💡💡
+        // 관리자 코드 입력 필드와 확인 버튼을 여기서 초기화합니다.
         adminCodeField = new JPasswordField(4);
         adminCheckButton = new JButton("관리자 확인");
 
@@ -497,23 +532,20 @@ public class wkqk {
                         JOptionPane.YES_NO_OPTION);
 
                 if (confirm == JOptionPane.YES_OPTION) {
-                    // 💡💡💡 로그아웃 처리 로직 💡💡💡
-                    loginLabel.setText("로그인"); // 'my page'를 다시 '로그인'으로 변경
-                    isAdminVerified = false; // 관리자 인증 상태 초기화
-                    deleteButton.setVisible(false); // 관리자 삭제 버튼 숨기기
-                    logoutButton.setVisible(false); // 로그아웃 버튼 숨기기
+                    loginLabel.setText("로그인");
+                    isAdminVerified = false;
+                    deleteButton.setVisible(false);
+                    logoutButton.setVisible(false);
 
-                    // 💡💡💡 관리자 코드 입력 필드와 확인 버튼 다시 활성화 및 필드 비우기! 💡💡💡
                     if (adminCodeField != null) {
                         adminCodeField.setEnabled(true);
-                        adminCodeField.setText(""); // 입력 필드 비우기
+                        adminCodeField.setText("");
                     }
                     if (adminCheckButton != null) {
                         adminCheckButton.setEnabled(true);
                     }
 
 
-                    // 현재 CENTER 영역의 내용을 제거하고 초기 공지사항 패널로 교체!
                     BorderLayout layout = (BorderLayout) frame.getContentPane().getLayout();
                     java.awt.Component centerComponent = layout.getLayoutComponent(BorderLayout.CENTER);
 
@@ -521,7 +553,6 @@ public class wkqk {
                         frame.getContentPane().remove(centerComponent);
                     }
 
-                    // static으로 선언된 초기 공지사항 패널을 다시 추가!
                     frame.getContentPane().add(initialMainContentPanel, BorderLayout.CENTER);
 
                     frame.revalidate();
@@ -539,6 +570,14 @@ public class wkqk {
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        // 문의하기 추가 버튼 액션 리스너 (기능 미구현)
+        addInquiryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(frame, "문의 등록 기능은 아직 준비 중입니다.", "안내", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
     }
 
     private static void saveData() {
