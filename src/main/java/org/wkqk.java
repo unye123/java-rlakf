@@ -45,6 +45,28 @@ public class wkqk {
 
         moreButton.addActionListener((new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
+                if (isAdminVerified) {
+                    JFrame addNoticePopup = new JFrame("공지사항 추가");
+                    addNoticePopup.setSize(400, 300);
+                    addNoticePopup.setLayout(new BorderLayout());
+
+                    JTextArea newNoticeInputArea = new JTextArea();
+                    newNoticeInputArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+                    JScrollPane inputScrollPane = new JScrollPane(newNoticeInputArea);
+
+                    JButton addButton = new JButton("추가");
+                    addButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent addE) {
+                            String newNotice = newNoticeInputArea.getText();
+                            if (!newNotice.trim().isEmpty()) {
+                                noticeArea.append("\n" + newNotice);
+                                addNoticePopup.dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(addNoticePopup, "추가할 내용을 입력하세요.",
+                                        "경고", JOptionPane.WARNING_MESSAGE);
+                }
                 JFrame popup = new JFrame("전체 공지사항");
                 popup.setSize(500, 400);
 
