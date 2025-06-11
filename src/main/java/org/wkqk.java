@@ -33,6 +33,9 @@ public class wkqk {
 
     private static JButton logoutButton;
 
+    // 💡💡💡 초기 공지사항 화면 패널을 static 변수로 선언! 💡💡💡
+    private static JPanel initialMainContentPanel;
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -372,19 +375,15 @@ public class wkqk {
         JPanel noticePanel = new JPanel();
         noticePanel.setLayout(new BorderLayout());
         noticePanel.add(noticeLabel, BorderLayout.NORTH);
-        // noticeArea를 JScrollPane으로 감싸서 추가합니다.
-        JScrollPane noticeScrollPane = new JScrollPane(noticeArea); // JScrollPane 변수 생성
-        // JScrollPane의 선호 크기 설정! (noticeArea의 크기 기반)
-        noticeScrollPane.setPreferredSize(noticeArea.getPreferredSize()); // noticeArea의 선호 크기로 설정
-        noticePanel.add(noticeScrollPane, BorderLayout.CENTER); // JScrollPane 추가
+        JScrollPane noticeScrollPane = new JScrollPane(noticeArea);
+        noticeScrollPane.setPreferredSize(noticeArea.getPreferredSize());
+        noticePanel.add(noticeScrollPane, BorderLayout.CENTER);
         noticePanel.add(southButtonPanel, BorderLayout.SOUTH);
+        noticePanel.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0));
 
-        // noticePanel에 왼쪽 여백(Border) 추가!
-        noticePanel.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0)); // 위, 왼쪽(70), 아래, 오른쪽 여백 설정
-
-
-        JPanel mainContentPanel = new JPanel(new BorderLayout());
-        mainContentPanel.add(noticePanel, BorderLayout.WEST);
+        // 💡💡💡 초기 공지사항 화면 패널을 static 변수에 할당! 💡💡💡
+        initialMainContentPanel = new JPanel(new BorderLayout());
+        initialMainContentPanel.add(noticePanel, BorderLayout.WEST);
 
 
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -402,7 +401,8 @@ public class wkqk {
 
         topPanel.add(eastPanel, BorderLayout.EAST);
 
-        frame.add(mainContentPanel, BorderLayout.CENTER);
+        // 💡💡💡 프레임의 CENTER에 초기 공지사항 패널 추가! 💡💡💡
+        frame.add(initialMainContentPanel, BorderLayout.CENTER);
 
         adminCheckButton.addActionListener(new ActionListener() {
             @Override
@@ -416,11 +416,9 @@ public class wkqk {
                     adminCodeField.setEnabled(false);
                     adminCheckButton.setEnabled(false);
                     deleteButton.setVisible(true);
-                    // 💡💡💡 관리자 인증 성공 시 로그아웃 버튼 보이게! 💡💡💡
                     if (logoutButton != null) {
                         logoutButton.setVisible(true);
                     }
-
 
                     JFrame adminUserManageFrame = new JFrame("사용자 관리 (관리자)");
                     adminUserManageFrame.setSize(300, 400);
@@ -473,7 +471,6 @@ public class wkqk {
                     adminCodeField.setText("");
                     isAdminVerified = false;
                     deleteButton.setVisible(false);
-                    // 💡💡💡 관리자 인증 실패 시 로그아웃 버튼 숨기기! 💡💡💡
                     if (logoutButton != null) {
                         logoutButton.setVisible(false);
                     }
@@ -498,11 +495,13 @@ public class wkqk {
                         JOptionPane.YES_NO_OPTION);
 
                 if (confirm == JOptionPane.YES_OPTION) {
-                    loginLabel.setText("로그인");
-                    isAdminVerified = false;
-                    deleteButton.setVisible(false);
-                    logoutButton.setVisible(false);
+                    // 💡💡💡 로그아웃 처리 로직 💡💡💡
+                    loginLabel.setText("로그인"); // 'my page'를 다시 '로그인'으로 변경
+                    isAdminVerified = false; // 관리자 인증 상태 초기화
+                    deleteButton.setVisible(false); // 관리자 삭제 버튼 숨기기
+                    logoutButton.setVisible(false); // 로그아웃 버튼 숨기기
 
+                    // 💡💡💡 현재 CENTER 영역의 내용을 제거하고 초기 공지사항 패널로 교체! 💡💡💡
                     BorderLayout layout = (BorderLayout) frame.getContentPane().getLayout();
                     java.awt.Component centerComponent = layout.getLayoutComponent(BorderLayout.CENTER);
 
@@ -510,23 +509,8 @@ public class wkqk {
                         frame.getContentPane().remove(centerComponent);
                     }
 
-                    JPanel southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-                    southButtonPanel.add(deleteButton);
-                    southButtonPanel.add(moreButton);
-
-                    JPanel noticePanel = new JPanel();
-                    noticePanel.setLayout(new BorderLayout());
-                    noticePanel.add(noticeLabel, BorderLayout.NORTH);
-                    JScrollPane noticeScrollPane = new JScrollPane(noticeArea);
-                    noticeScrollPane.setPreferredSize(noticeArea.getPreferredSize());
-                    noticePanel.add(noticeScrollPane, BorderLayout.CENTER);
-                    noticePanel.add(southButtonPanel, BorderLayout.SOUTH);
-                    noticePanel.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0));
-
-                    JPanel mainContentPanel = new JPanel(new BorderLayout());
-                    mainContentPanel.add(noticePanel, BorderLayout.WEST);
-
-                    frame.getContentPane().add(mainContentPanel, BorderLayout.CENTER);
+                    // 💡💡💡 static으로 선언된 초기 공지사항 패널을 다시 추가! 💡💡💡
+                    frame.getContentPane().add(initialMainContentPanel, BorderLayout.CENTER);
 
                     frame.revalidate();
                     frame.repaint();
