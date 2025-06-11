@@ -74,14 +74,9 @@ public class wkqk {
 
         frame.add(mainContentPanel, BorderLayout.CENTER);
 
-        JPanel noticePanel = new JPanel();
-        noticePanel.setLayout(new BorderLayout());
-        noticePanel.add(noticeLabel, BorderLayout.NORTH);
-        noticePanel.add(noticeArea, BorderLayout.CENTER);
-        noticePanel.add(moreButton, BorderLayout.SOUTH);
-
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel topPanel = new JPanel(new BorderLayout());
+        mainContentPanel.add(noticePanel);
 
         topPanel.add(centerPanel, BorderLayout.CENTER);
         centerPanel.add(logoLabel);
