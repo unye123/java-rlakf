@@ -1,57 +1,27 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
+import java.awt.Font;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 public class wkqk {
 
-    private static final String ADMIN_CODE = "4724";
-    private static boolean isAdminVerified = false;
-    private static JTextArea noticeArea;
-    private static JButton deleteButton;
-
-    private static List<String> registeredIds = new ArrayList<>();
-    private static Map<String, String> users = new HashMap<>();
-    private static Map<String, Map<String, String>> userDetails = new HashMap<>();
-
-    private static final String DATA_FILE = "app_data.dat";
-
-    private static JButton logoutButton;
-
-    private static JPanel initialMainContentPanel;
-
-    private static JPasswordField adminCodeField;
-    private static JButton adminCheckButton;
-
-    private static JButton addInquiryButton;
-
-    private static JTextArea registeredCertsArea;
-    private static JButton addCertButton;
+    // 미리 정해진 사용자 정보 (아이디: 비밀번호)
+    private static final Map<String, String> users = new HashMap<>();
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> createAndShowGUI());
-    }
 
-    private static void createAndShowGUI() {
-        noticeArea = new JTextArea(10, 30);
-        noticeArea.setEditable(false);
-        noticeArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-
-        loadData();
+        // 테스트용 사용자 정보 추가
+        users.put("ddd", "1234");
 
         JFrame frame = new JFrame("자격증 홈페이지");
         frame.setSize(1080, 720);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                saveData();
-                System.exit(0);
-            }
-        });
-
-        adminCodeField = new JPasswordField(4);
-        adminCheckButton = new JButton("관리자 확인");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel logoLabel = new JLabel("lee Certificate");
         logoLabel.setFont(new Font("Serif", Font.BOLD, 24));
@@ -59,72 +29,111 @@ public class wkqk {
         JLabel loginLabel = new JLabel("로그인");
         loginLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         loginLabel.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseReleased(MouseEvent e) {
                 if (loginLabel.getText().equals("로그인")) {
-                    showLoginPopup(frame, loginLabel);
+                    // 로그인 팝업 창 생성
+                    JFrame loginPopup = new JFrame("로그인");
+                    loginPopup.setSize(300, 200);
+                    loginPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                    JPanel loginMainPanel = new JPanel(new BorderLayout());
+                    loginMainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+                    JPanel inputPanel = new JPanel();
+                    inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+
+                    JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    idPanel.add(new JLabel("아이디:"));
+                    JTextField idField = new JTextField(15);
+                    idPanel.add(idField);
+                    inputPanel.add(idPanel);
+
+                    JPanel pwPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    pwPanel.add(new JLabel("비밀번호:"));
+                    JPasswordField pwField = new JPasswordField(15);
+                    pwPanel.add(pwField);
+                    inputPanel.add(pwPanel);
+
+                    JPanel loginButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                    JButton loginButton = new JButton("로그인");
+                    loginButtonPanel.add(loginButton);
+                    inputPanel.add(loginButtonPanel);
+
+                    // 회원가입 문구 (기능 없음)
+                    JLabel signupLabel = new JLabel("회원가입");
+                    signupLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+                    signupLabel.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+                            JOptionPane.showMessageDialog(loginPopup, "회원가입 기능은 현재 준비 중입니다.", "안내", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    });
+
+
+                    loginMainPanel.add(inputPanel, BorderLayout.CENTER);
+                    loginMainPanel.add(signupLabel, BorderLayout.SOUTH);
+
+                    loginPopup.add(loginMainPanel);
+                    loginPopup.setLocationRelativeTo(frame);
+                    loginPopup.setVisible(true);
+
+                    // 로그인 버튼 액션 리스너
+                    loginButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent loginE) {
+                            String enteredId = idField.getText();
+                            char[] enteredPw = pwField.getPassword();
+                            String password = new String(enteredPw);
+
+                            // 아이디와 비밀번호 확인
+                            if (users.containsKey(enteredId) && users.get(enteredId).equals(password)) {
+                                JOptionPane.showMessageDialog(loginPopup, "로그인 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
+                                loginPopup.dispose(); // 로그인 팝업 닫기
+                                loginLabel.setText("my page"); // '로그인' 글자를 'my page'로 변경
+                            } else {
+                                JOptionPane.showMessageDialog(loginPopup, "아이디 또는 비밀번호가 올바르지 않습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
+                                pwField.setText(""); // 비밀번호 필드 비우기
+                            }
+                        }
+                    });
                 } else if (loginLabel.getText().equals("my page")) {
-                    showMyPageContent(frame);
+                    // my page 클릭 시 동작 (현재는 아무것도 하지 않음)
+                    // 여기에 my page 화면으로 전환하는 코드를 추가할 수 있습니다.
                 }
             }
         });
 
+
         JLabel noticeLabel = new JLabel("공지사항");
         noticeLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+
+        JTextArea noticeArea = new JTextArea(10, 50);
+        noticeArea.setEditable(false);
+        noticeArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+        noticeArea.setText( "1. 자격증 접수는 6월 20일까지입니다.\n" +
+                "2. 시험 일정은 7월 1일입니다.\n" +
+                "3. 응시자 유의사항을 꼭 확인하세요.\n" +
+                "4. 마감일 전까지 사진 등록 필수입니다.\n" +
+                "5. 신분증 지참 필수.\n" +
+                "6. 자리 배정표는 시험 하루 전 제공.\n" +
+                "7. 시험 장소는 추후 공지 예정.\n" +
+                "8. 준비물은 개별 확인 요망.\n" +
+                "9. 합격 발표는 8월 초 예정.\n" +
+                "10. 문의는 홈페이지 Q&A를 이용하세요.");
 
         JButton moreButton = new JButton("+");
         moreButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 
-        deleteButton = new JButton("-");
-        deleteButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        deleteButton.setVisible(false);
-        deleteButton.addActionListener(e -> {
-            String selectedText = noticeArea.getSelectedText();
-            if (selectedText != null && !selectedText.isEmpty()) {
-                String fullText = noticeArea.getText();
-                String newText = fullText.replace(selectedText, "");
-                noticeArea.setText(newText);
-                JOptionPane.showMessageDialog(frame, "선택된 공지사항 내용이 삭제되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(frame, "삭제할 내용을 선택하세요.", "안내", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-
-        moreButton.addActionListener(e -> {
-            if (isAdminVerified) {
-                JFrame addNoticePopup = new JFrame("공지사항 추가");
-                addNoticePopup.setSize(400, 300);
-                addNoticePopup.setLayout(new BorderLayout());
-
-                JTextArea newNoticeInputArea = new JTextArea();
-                newNoticeInputArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-                JScrollPane inputScrollPane = new JScrollPane(newNoticeInputArea);
-
-                JButton addButton = new JButton("추가");
-                addButton.addActionListener(ev -> {
-                    String newNotice = newNoticeInputArea.getText();
-                    if (!newNotice.trim().isEmpty()) {
-                        noticeArea.append("\n" + (noticeArea.getText().trim().isEmpty() ? "" : "\n") + newNotice);
-                        addNoticePopup.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(addNoticePopup, "추가할 내용을 입력하세요.", "경고", JOptionPane.WARNING_MESSAGE);
-                    }
-                });
-
-                addNoticePopup.add(new JLabel("새 공지사항 내용을 입력하세요:"), BorderLayout.NORTH);
-                addNoticePopup.add(inputScrollPane, BorderLayout.CENTER);
-                addNoticePopup.add(addButton, BorderLayout.SOUTH);
-
-                addNoticePopup.setLocationRelativeTo(frame);
-                addNoticePopup.setVisible(true);
-
-            } else {
+        moreButton.addActionListener((new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 JFrame popup = new JFrame("전체 공지사항");
                 popup.setSize(500, 400);
 
                 JTextArea fullNoticeArea = new JTextArea();
                 fullNoticeArea.setEditable(false);
                 fullNoticeArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-                fullNoticeArea.setText(noticeArea.getText() +
+                fullNoticeArea.setText( noticeArea.getText() +
                         "\n11. 재시험 일정은 별도 공지됩니다.\n" +
                         "12. 모의고사 일정은 추후 안내됩니다.\n");
 
@@ -133,289 +142,26 @@ public class wkqk {
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
             }
-        });
+        }));
 
-        JPanel southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        southButtonPanel.add(deleteButton);
-        southButtonPanel.add(moreButton);
-
-        JPanel noticePanel = new JPanel(new BorderLayout());
+        JPanel noticePanel = new JPanel();
+        noticePanel.setLayout(new BorderLayout());
         noticePanel.add(noticeLabel, BorderLayout.NORTH);
-        JScrollPane noticeScrollPane = new JScrollPane(noticeArea);
-        noticeScrollPane.setPreferredSize(noticeArea.getPreferredSize());
-        noticePanel.add(noticeScrollPane, BorderLayout.CENTER);
-        noticePanel.add(southButtonPanel, BorderLayout.SOUTH);
-        noticePanel.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0));
+        noticePanel.add(noticeArea, BorderLayout.CENTER);
+        noticePanel.add(moreButton, BorderLayout.SOUTH);
 
-        initialMainContentPanel = new JPanel(new BorderLayout());
-        initialMainContentPanel.add(noticePanel, BorderLayout.WEST);
-
-        JLabel inquiryLabel = new JLabel("문의하기");
-        inquiryLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-
-        JTextArea inquiryArea = new JTextArea(10, 30);
-        inquiryArea.setEditable(false);
-        inquiryArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        inquiryArea.setText("문의 내용이 여기에 표시됩니다.");
-
-        addInquiryButton = new JButton("+");
-        addInquiryButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        addInquiryButton.setEnabled(false);
-
-        JPanel inquiryButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        inquiryButtonPanel.add(addInquiryButton);
-
-        JPanel inquiryPanel = new JPanel(new BorderLayout());
-        inquiryPanel.add(inquiryLabel, BorderLayout.NORTH);
-        JScrollPane inquiryScrollPane = new JScrollPane(inquiryArea);
-        inquiryScrollPane.setPreferredSize(inquiryArea.getPreferredSize());
-        inquiryPanel.add(inquiryScrollPane, BorderLayout.CENTER);
-        inquiryPanel.add(inquiryButtonPanel, BorderLayout.SOUTH);
-        inquiryPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 70));
-
-        initialMainContentPanel.add(inquiryPanel, BorderLayout.EAST);
+        frame.add(noticePanel, BorderLayout.CENTER);
 
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JPanel topPanel = new JPanel(new BorderLayout());
 
-        JPanel myPageContainerPanel = new JPanel(new BorderLayout());
-        myPageContainerPanel.setBorder(BorderFactory.createEmptyBorder(10, 70, 10, 10));
+        topPanel.add(centerPanel, BorderLayout.CENTER);
+        centerPanel.add(logoLabel);
+        topPanel.add(loginLabel, BorderLayout.EAST);
 
-        myPageContentPanel = new JPanel();
-        myPageContentPanel.setLayout(new BoxLayout(myPageContentPanel, BoxLayout.Y_AXIS));
-
-        certRegSectionFullPanel = new JPanel();
-        certRegSectionFullPanel.setLayout(new BoxLayout(certRegSectionFullPanel, BoxLayout.Y_AXIS));
-
-        certRegSectionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JLabel certRegLabel = new JLabel("자격증 등록");
-        certRegLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
-        addCertButton = new JButton("+");
-        addCertButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-
-        certRegSectionPanel.add(certRegLabel);
-        certRegSectionPanel.add(addCertButton);
-
-        registeredCertsArea = new JTextArea();
-        registeredCertsArea.setEditable(false);
-        registeredCertsArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        JScrollPane certsScrollPane = new JScrollPane(registeredCertsArea);
-        certsScrollPane.setPreferredSize(new Dimension(300, 150));
-        certsScrollPane.setMaximumSize(new Dimension(300, 400));
-
-        certRegSectionFullPanel.add(certRegSectionPanel);
-        certRegSectionFullPanel.add(certsScrollPane);
-
-        myPageContentPanel.add(certRegSectionFullPanel);
-        myPageContentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-
-        JPanel examInfoSectionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JLabel examInfoLabel = new JLabel("시험 일정/정보");
-        examInfoLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
-        JButton viewExamButton = new JButton("보기");
-        viewExamButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-
-        examInfoSectionPanel.add(examInfoLabel);
-        examInfoSectionPanel.add(viewExamButton);
-
-        myPageContentPanel.add(examInfoSectionPanel);
-
-        myPageContainerPanel.add(myPageContentPanel, BorderLayout.WEST);
-
-        adminCodeField = new JPasswordField(4);
-        adminCheckButton = new JButton("관리자 확인");
-
-        JPanel eastPanelFlow = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        eastPanelFlow.add(loginLabel);
-        eastPanelFlow.add(new JLabel("관리자 코드:"));
-        eastPanelFlow.add(adminCodeField);
-        eastPanelFlow.add(adminCheckButton);
-
-        topPanel.add(eastPanelFlow, BorderLayout.EAST);
-
-        frame.add(initialMainContentPanel, BorderLayout.CENTER);
         frame.add(topPanel, BorderLayout.NORTH);
-        frame.add(myPageContainerPanel, BorderLayout.CENTER);
-
-        addCertButton.addActionListener(e -> {
-            JFrame inputPopup = new JFrame("내용 추가");
-            inputPopup.setSize(300, 150);
-            inputPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            inputPopup.setLayout(new FlowLayout());
-
-            JTextField inputField = new JTextField(20);
-            JButton confirmAddButton = new JButton("추가");
-
-            inputPopup.add(new JLabel("추가할 내용:"));
-            inputPopup.add(inputField);
-            inputPopup.add(confirmAddButton);
-
-            inputPopup.setLocationRelativeTo(frame);
-            inputPopup.setVisible(true);
-
-            confirmAddButton.addActionListener(confirmE -> {
-                String content = inputField.getText();
-                if (!content.trim().isEmpty()) {
-                    registeredCertsArea.append((registeredCertsArea.getText().trim().isEmpty() ? "" : "\n") + content);
-                    inputPopup.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(inputPopup, "내용을 입력하세요.", "경고", JOptionPane.WARNING_MESSAGE);
-                }
-            });
-        });
-
-        viewExamButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "시험 일정/정보 보기 기능은 아직 준비 중입니다.", "안내", JOptionPane.INFORMATION_MESSAGE);
-        });
-
-        adminCheckButton.addActionListener(e -> {
-            char[] inputCode = adminCodeField.getPassword();
-            String enteredCode = new String(inputCode);
-
-            if (enteredCode.equals(ADMIN_CODE)) {
-                JOptionPane.showMessageDialog(frame, "관리자 인증 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
-                isAdminVerified = true;
-                adminCodeField.setEnabled(false);
-                adminCheckButton.setEnabled(false);
-                deleteButton.setVisible(true);
-                if (logoutButton != null) {
-                    logoutButton.setVisible(true);
-                }
-                if (addInquiryButton != null) {
-                    addInquiryButton.setEnabled(true);
-                }
-
-                JFrame adminUserManageFrame = new JFrame("사용자 관리 (관리자)");
-                adminUserManageFrame.setSize(300, 400);
-                adminUserManageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                adminUserManageFrame.setLayout(new BorderLayout());
-
-                DefaultListModel<String> userListModel = new DefaultListModel<>();
-                for (String id : registeredIds) {
-                    userListModel.addElement(id);
-                }
-                JList<String> userList = new JList<>(userListModel);
-                JScrollPane listScrollPane = new JScrollPane(userList);
-
-                JButton deleteUserButton = new JButton("선택된 사용자 삭제");
-                deleteUserButton.addActionListener(deleteE -> {
-                    String selectedId = userList.getSelectedValue();
-
-                    if (selectedId != null) {
-                        int confirm = JOptionPane.showConfirmDialog(adminUserManageFrame,
-                                selectedId + " 사용자를 정말 삭제하시겠습니까?", "사용자 삭제 확인",
-                                JOptionPane.YES_NO_OPTION);
-
-                        if (confirm == JOptionPane.YES_OPTION) {
-                            registeredIds.remove(selectedId);
-                            users.remove(selectedId);
-                            userDetails.remove(selectedId);
-
-                            userListModel.removeElement(selectedId);
-
-                            JOptionPane.showMessageDialog(adminUserManageFrame, selectedId + " 사용자가 삭제되었습니다.", "삭제 완료", JOptionPane.INFORMATION_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(adminUserManageFrame, "삭제할 사용자를 선택하세요.", "안내", JOptionPane.WARNING_MESSAGE);
-                    }
-                });
-
-                adminUserManageFrame.add(new JLabel("가입된 사용자 아이디 목록:", SwingConstants.CENTER), BorderLayout.NORTH);
-                adminUserManageFrame.add(listScrollPane, BorderLayout.CENTER);
-                adminUserManageFrame.add(deleteUserButton, BorderLayout.SOUTH);
-
-                adminUserManageFrame.setLocationRelativeTo(frame);
-                adminUserManageFrame.setVisible(true);
-
-
-            } else {
-                JOptionPane.showMessageDialog(frame, "관리자 인증 실패!", "오류", JOptionPane.ERROR_MESSAGE);
-                adminCodeField.setText("");
-                isAdminVerified = false;
-                deleteButton.setVisible(false);
-                if (logoutButton != null) {
-                    logoutButton.setVisible(false);
-                }
-                if (addInquiryButton != null) {
-                    addInquiryButton.setEnabled(false);
-                }
-            }
-        });
-
-        deleteButton = new JButton("-");
-        deleteButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        deleteButton.setVisible(false);
-        deleteButton.addActionListener(e -> {
-            String selectedText = noticeArea.getSelectedText();
-
-            if (selectedText != null && !selectedText.isEmpty()) {
-                String fullText = noticeArea.getText();
-                String newText = fullText.replace(selectedText, "");
-                noticeArea.setText(newText);
-
-                JOptionPane.showMessageDialog(frame, "선택된 공지사항 내용이 삭제되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(frame, "삭제할 내용을 선택하세요.", "안내", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-
-        moreButton = new JButton("+");
-        moreButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-
-        JPanel southButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        southButtonPanel.add(deleteButton);
-        southButtonPanel.add(moreButton);
-
-        frame.add(southButtonPanel, BorderLayout.SOUTH);
-
-        logoutButton = new JButton("로그아웃");
-        logoutButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        logoutButton.setVisible(false);
-
-        logoutButton.addActionListener(e -> {
-            int confirm = JOptionPane.showConfirmDialog(frame,
-                    "로그아웃 하시겠습니까?", "로그아웃 확인",
-                    JOptionPane.YES_NO_OPTION);
-
-            if (confirm == JOptionPane.YES_OPTION) {
-                loginLabel.setText("로그인");
-                isAdminVerified = false;
-                deleteButton.setVisible(false);
-                logoutButton.setVisible(false);
-
-                if (adminCodeField != null) {
-                    adminCodeField.setEnabled(true);
-                    adminCodeField.setText("");
-                }
-                if (adminCheckButton != null) {
-                    adminCheckButton.setEnabled(true);
-                }
-                if (addInquiryButton != null) {
-                    addInquiryButton.setEnabled(false);
-                }
-
-                BorderLayout layout = (BorderLayout) frame.getContentPane().getLayout();
-                java.awt.Component centerComponent = layout.getLayoutComponent(BorderLayout.CENTER);
-
-                if (centerComponent != null) {
-                    frame.getContentPane().remove(centerComponent);
-                }
-
-                frame.getContentPane().add(initialMainContentPanel, BorderLayout.CENTER);
-
-                frame.revalidate();
-                frame.repaint();
-
-                JOptionPane.showMessageDialog(frame, "로그아웃 되었습니다.", "알림", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-        addInquiryButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "문의 등록 기능은 아직 준비 중입니다.", "안내", JOptionPane.INFORMATION_MESSAGE);
-        });
     }
 }
