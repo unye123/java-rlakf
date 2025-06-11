@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.awt.Dimension;
 
 public class wkqk {
@@ -19,12 +21,17 @@ public class wkqk {
     private static JButton deleteButton;
 
     private static List<String> registeredIds = new ArrayList<>();
+    private static Map<String, String> users = new HashMap<>();
+
 
     public static void main(String[] args) {
 
         registeredIds.add("admin");
         registeredIds.add("user1");
         registeredIds.add("test");
+        users.put("admin", "admin123");
+        users.put("user1", "pass123");
+        users.put("test", "testpass");
 
 
         JFrame frame = new JFrame("자격증 홈페이지");
@@ -84,9 +91,8 @@ public class wkqk {
                         idInputAndButtonPanel.setLayout(new BoxLayout(idInputAndButtonPanel, BoxLayout.X_AXIS));
 
                         JTextField signupIdField = new JTextField(10);
-                        // 💡💡💡 아이디 입력 필드의 선호 크기 설정! 💡💡💡
-                        signupIdField.setPreferredSize(new Dimension(150, 25)); // 예시 크기 (가로 150, 세로 25)
-                        signupIdField.setMaximumSize(new Dimension(150, 25)); // 최대 크기도 설정 (BoxLayout에 힌트 제공)
+                        signupIdField.setPreferredSize(new Dimension(150, 25));
+                        signupIdField.setMaximumSize(new Dimension(150, 25));
 
 
                         JButton checkIdButton = new JButton("중복 확인");
@@ -165,7 +171,16 @@ public class wkqk {
                         char[] enteredPw = pwField.getPassword();
                         String password = new String(enteredPw);
 
-                        JOptionPane.showMessageDialog(loginPopup, "입력된 아이디: " + enteredId + "\n입력된 비밀번호: " + password, "로그인 시도", JOptionPane.INFORMATION_MESSAGE);
+                        if (users.containsKey(enteredId) && users.get(enteredId).equals(password)) {
+                            JOptionPane.showMessageDialog(loginPopup, "로그인 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
+                            loginPopup.dispose();
+
+                            loginLabel.setText("my page");
+
+                        } else {
+                            JOptionPane.showMessageDialog(loginPopup, "아이디 또는 비밀번호가 올바르지 않습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
+                            pwField.setText("");
+                        }
                     }
                 });
             }
