@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.awt.Dimension;
-import javax.swing.DefaultListModel; // 💡💡💡 DefaultListModel 추가! 💡💡💡
+import javax.swing.DefaultListModel;
 
 public class wkqk {
 
@@ -54,217 +54,222 @@ public class wkqk {
         userDetails.put("test", testDetails);
 
 
-        JFrame frame = new JFrame("자격증 홈페이지");
+        final JFrame frame = new JFrame("자격증 홈페이지");
         frame.setSize(1080, 720);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel logoLabel = new JLabel("lee Certificate");
         logoLabel.setFont(new Font("Serif", Font.BOLD, 24));
 
-        JLabel loginLabel = new JLabel("로그인");
+        final JLabel loginLabel = new JLabel("로그인");
         loginLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
         loginLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                final JFrame loginPopup = new JFrame("로그인");
-                loginPopup.setSize(300, 200);
-                loginPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                if (loginLabel.getText().equals("로그인")) {
+                    final JFrame loginPopup = new JFrame("로그인");
+                    loginPopup.setSize(300, 200);
+                    loginPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                JPanel loginMainPanel = new JPanel(new BorderLayout());
-                loginMainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                    JPanel loginMainPanel = new JPanel(new BorderLayout());
+                    loginMainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-                JPanel inputPanel = new JPanel();
-                inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+                    JPanel inputPanel = new JPanel();
+                    inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
 
-                JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                idPanel.add(new JLabel("아이디:"));
-                JTextField idField = new JTextField(15);
-                idPanel.add(idField);
-                inputPanel.add(idPanel);
+                    JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    idPanel.add(new JLabel("아이디:"));
+                    JTextField idField = new JTextField(15);
+                    idPanel.add(idField);
+                    inputPanel.add(idPanel);
 
-                JPanel pwPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                pwPanel.add(new JLabel("비밀번호:"));
-                JPasswordField pwField = new JPasswordField(15);
-                pwPanel.add(pwField);
-                inputPanel.add(pwPanel);
+                    JPanel pwPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    pwPanel.add(new JLabel("비밀번호:"));
+                    JPasswordField pwField = new JPasswordField(15);
+                    pwPanel.add(pwField);
+                    inputPanel.add(pwPanel);
 
-                JPanel loginButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-                JButton loginButton = new JButton("로그인");
-                loginButtonPanel.add(loginButton);
-                inputPanel.add(loginButtonPanel);
+                    JPanel loginButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                    JButton loginButton = new JButton("로그인");
+                    loginButtonPanel.add(loginButton);
+                    inputPanel.add(loginButtonPanel);
 
-                JLabel signupLabel = new JLabel("회원가입");
-                signupLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-                signupLabel.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
-                        final JFrame signupPopup = new JFrame("회원가입");
-                        signupPopup.setSize(400, 300);
-                        signupPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    JLabel signupLabel = new JLabel("회원가입");
+                    signupLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+                    signupLabel.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+                            final JFrame signupPopup = new JFrame("회원가입");
+                            signupPopup.setSize(400, 300);
+                            signupPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-                        JPanel signupMainPanel = new JPanel(new BorderLayout());
-                        signupMainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                            JPanel signupMainPanel = new JPanel(new BorderLayout());
+                            signupMainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-                        JPanel signupInputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
+                            JPanel signupInputPanel = new JPanel(new GridLayout(5, 2, 5, 5));
 
-                        JPanel idInputAndButtonPanel = new JPanel();
-                        idInputAndButtonPanel.setLayout(new BoxLayout(idInputAndButtonPanel, BoxLayout.X_AXIS));
+                            JPanel idInputAndButtonPanel = new JPanel();
+                            idInputAndButtonPanel.setLayout(new BoxLayout(idInputAndButtonPanel, BoxLayout.X_AXIS));
 
-                        final JTextField signupIdField = new JTextField(10);
-                        signupIdField.setPreferredSize(new Dimension(150, 25));
-                        signupIdField.setMaximumSize(new Dimension(150, 25));
-
-
-                        final JButton checkIdButton = new JButton("중복 확인");
-
-                        idInputAndButtonPanel.add(signupIdField);
-                        idInputAndButtonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-                        idInputAndButtonPanel.add(checkIdButton);
-
-                        signupInputPanel.add(new JLabel("아이디:"));
-                        signupInputPanel.add(idInputAndButtonPanel);
-
-                        JPanel pwInputAndLabelPanel = new JPanel();
-                        pwInputAndLabelPanel.setLayout(new BoxLayout(pwInputAndLabelPanel, BoxLayout.Y_AXIS));
-
-                        final JPasswordField signupPwField = new JPasswordField();
-                        signupPwField.setPreferredSize(new Dimension(150, 25));
-                        signupPwField.setMaximumSize(new Dimension(150, 25));
-
-                        JLabel pwHintLabel = new JLabel("5자리 이상");
-                        pwHintLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
-                        pwHintLabel.setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
-
-                        pwInputAndLabelPanel.add(signupPwField);
-                        pwInputAndLabelPanel.add(pwHintLabel);
-
-                        signupInputPanel.add(new JLabel("비밀번호:"));
-                        signupInputPanel.add(pwInputAndLabelPanel);
+                            final JTextField signupIdField = new JTextField(10);
+                            signupIdField.setPreferredSize(new Dimension(150, 25));
+                            signupIdField.setMaximumSize(new Dimension(150, 25));
 
 
-                        final JTextField signupNameField = new JTextField();
-                        signupInputPanel.add(new JLabel("이름:"));
-                        signupInputPanel.add(signupNameField);
+                            final JButton checkIdButton = new JButton("중복 확인");
 
-                        final JTextField signupStudentIdField = new JTextField();
-                        signupInputPanel.add(new JLabel("학번:"));
-                        signupInputPanel.add(signupStudentIdField);
+                            idInputAndButtonPanel.add(signupIdField);
+                            idInputAndButtonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+                            idInputAndButtonPanel.add(checkIdButton);
 
-                        final JTextField signupMajorField = new JTextField();
-                        signupInputPanel.add(new JLabel("학과:"));
-                        signupInputPanel.add(signupMajorField);
+                            signupInputPanel.add(new JLabel("아이디:"));
+                            signupInputPanel.add(idInputAndButtonPanel);
 
-                        JPanel signupButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-                        final JButton registerButton = new JButton("가입하기");
-                        registerButton.setEnabled(false);
+                            JPanel pwInputAndLabelPanel = new JPanel();
+                            pwInputAndLabelPanel.setLayout(new BoxLayout(pwInputAndLabelPanel, BoxLayout.Y_AXIS));
 
-                        final boolean[] isIdCheckedAndAvailable = {false};
+                            final JPasswordField signupPwField = new JPasswordField();
+                            signupPwField.setPreferredSize(new Dimension(150, 25));
+                            signupPwField.setMaximumSize(new Dimension(150, 25));
 
-                        registerButton.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent registerE) {
-                                if (isIdCheckedAndAvailable[0]) {
-                                    String newId = signupIdField.getText();
-                                    char[] newPwChars = signupPwField.getPassword();
-                                    String newPassword = new String(newPwChars);
-                                    String newName = signupNameField.getText();
-                                    String newStudentId = signupStudentIdField.getText();
-                                    String newMajor = signupMajorField.getText();
+                            JLabel pwHintLabel = new JLabel("5자리 이상");
+                            pwHintLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
+                            pwHintLabel.setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
 
-                                    if (newId.isEmpty() || newPassword.isEmpty()) {
-                                        JOptionPane.showMessageDialog(signupPopup, "아이디와 비밀번호는 필수 입력입니다.", "경고", JOptionPane.WARNING_MESSAGE);
-                                        return;
+                            pwInputAndLabelPanel.add(signupPwField);
+                            pwInputAndLabelPanel.add(pwHintLabel);
+
+                            signupInputPanel.add(new JLabel("비밀번호:"));
+                            signupInputPanel.add(pwInputAndLabelPanel);
+
+
+                            final JTextField signupNameField = new JTextField();
+                            signupInputPanel.add(new JLabel("이름:"));
+                            signupInputPanel.add(signupNameField);
+
+                            final JTextField signupStudentIdField = new JTextField();
+                            signupInputPanel.add(new JLabel("학번:"));
+                            signupInputPanel.add(signupStudentIdField);
+
+                            final JTextField signupMajorField = new JTextField();
+                            signupInputPanel.add(new JLabel("학과:"));
+                            signupInputPanel.add(signupMajorField);
+
+                            JPanel signupButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                            final JButton registerButton = new JButton("가입하기");
+                            registerButton.setEnabled(false);
+
+                            final boolean[] isIdCheckedAndAvailable = {false};
+
+                            registerButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent registerE) {
+                                    if (isIdCheckedAndAvailable[0]) {
+                                        String newId = signupIdField.getText();
+                                        char[] newPwChars = signupPwField.getPassword();
+                                        String newPassword = new String(newPwChars);
+                                        String newName = signupNameField.getText();
+                                        String newStudentId = signupStudentIdField.getText();
+                                        String newMajor = signupMajorField.getText();
+
+                                        if (newId.isEmpty() || newPassword.isEmpty()) {
+                                            JOptionPane.showMessageDialog(signupPopup, "아이디와 비밀번호는 필수 입력입니다.", "경고", JOptionPane.WARNING_MESSAGE);
+                                            return;
+                                        }
+
+                                        if (newPassword.length() < 5) {
+                                            JOptionPane.showMessageDialog(signupPopup, "비밀번호는 5자리 이상이어야 합니다.", "경고", JOptionPane.WARNING_MESSAGE);
+                                            return;
+                                        }
+
+
+                                        registeredIds.add(newId);
+                                        users.put(newId, newPassword);
+                                        Map<String, String> details = new HashMap<>();
+                                        details.put("name", newName);
+                                        details.put("studentId", newStudentId);
+                                        details.put("major", newMajor);
+                                        userDetails.put(newId, details);
+
+
+                                        JOptionPane.showMessageDialog(signupPopup, "회원가입 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
+
+                                        signupPopup.dispose();
+                                        loginPopup.setVisible(true);
+
+                                    } else {
+                                        JOptionPane.showMessageDialog(signupPopup, "아이디 중복 확인을 먼저 해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
                                     }
-
-                                    if (newPassword.length() < 5) {
-                                        JOptionPane.showMessageDialog(signupPopup, "비밀번호는 5자리 이상이어야 합니다.", "경고", JOptionPane.WARNING_MESSAGE);
-                                        return;
-                                    }
-
-
-                                    registeredIds.add(newId);
-                                    users.put(newId, newPassword);
-                                    Map<String, String> details = new HashMap<>();
-                                    details.put("name", newName);
-                                    details.put("studentId", newStudentId);
-                                    details.put("major", newMajor);
-                                    userDetails.put(newId, details);
-
-
-                                    JOptionPane.showMessageDialog(signupPopup, "회원가입 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
-
-                                    signupPopup.dispose();
-                                    loginPopup.setVisible(true);
-
-                                } else {
-                                    JOptionPane.showMessageDialog(signupPopup, "아이디 중복 확인을 먼저 해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
                                 }
-                            }
-                        });
-                        signupButtonPanel.add(registerButton);
+                            });
+                            signupButtonPanel.add(registerButton);
 
 
-                        signupMainPanel.add(signupInputPanel, BorderLayout.CENTER);
-                        signupMainPanel.add(signupButtonPanel, BorderLayout.SOUTH);
+                            signupMainPanel.add(signupInputPanel, BorderLayout.CENTER);
+                            signupMainPanel.add(signupButtonPanel, BorderLayout.SOUTH);
 
-                        signupPopup.add(signupMainPanel);
+                            signupPopup.add(signupMainPanel);
 
-                        signupPopup.setLocationRelativeTo(loginPopup);
-                        signupPopup.setVisible(true);
+                            signupPopup.setLocationRelativeTo(loginPopup);
+                            signupPopup.setVisible(true);
 
-                        checkIdButton.addActionListener(new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent checkE) {
-                                String enteredId = signupIdField.getText();
+                            checkIdButton.addActionListener(new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent checkE) {
+                                    String enteredId = signupIdField.getText();
 
-                                if (enteredId.isEmpty()) {
-                                    JOptionPane.showMessageDialog(signupPopup, "아이디를 입력하세요.", "경고", JOptionPane.WARNING_MESSAGE);
-                                    isIdCheckedAndAvailable[0] = false;
-                                    registerButton.setEnabled(false);
-                                } else {
-                                    if (registeredIds.contains(enteredId)) {
-                                        JOptionPane.showMessageDialog(signupPopup, "이미 사용 중인 아이디입니다.", "중복 확인", JOptionPane.WARNING_MESSAGE);
+                                    if (enteredId.isEmpty()) {
+                                        JOptionPane.showMessageDialog(signupPopup, "아이디를 입력하세요.", "경고", JOptionPane.WARNING_MESSAGE);
                                         isIdCheckedAndAvailable[0] = false;
                                         registerButton.setEnabled(false);
                                     } else {
-                                        JOptionPane.showMessageDialog(signupPopup, "사용 가능한 아이디입니다.", "중복 확인", JOptionPane.INFORMATION_MESSAGE);
-                                        isIdCheckedAndAvailable[0] = true;
-                                        registerButton.setEnabled(true);
+                                        if (registeredIds.contains(enteredId)) {
+                                            JOptionPane.showMessageDialog(signupPopup, "이미 사용 중인 아이디입니다.", "중복 확인", JOptionPane.WARNING_MESSAGE);
+                                            isIdCheckedAndAvailable[0] = false;
+                                            registerButton.setEnabled(false);
+                                        } else {
+                                            JOptionPane.showMessageDialog(signupPopup, "사용 가능한 아이디입니다.", "중복 확인", JOptionPane.INFORMATION_MESSAGE);
+                                            isIdCheckedAndAvailable[0] = true;
+                                            registerButton.setEnabled(true);
+                                        }
                                     }
                                 }
-                            }
-                        });
-                    }
-                });
-
-
-                loginMainPanel.add(inputPanel, BorderLayout.CENTER);
-                loginMainPanel.add(signupLabel, BorderLayout.SOUTH);
-
-                loginPopup.add(loginMainPanel);
-
-                loginPopup.setLocationRelativeTo(frame);
-                loginPopup.setVisible(true);
-
-                loginButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent loginE) {
-                        String enteredId = idField.getText();
-                        char[] enteredPw = pwField.getPassword();
-                        String password = new String(enteredPw);
-
-                        if (users.containsKey(enteredId) && users.get(enteredId).equals(password)) {
-                            JOptionPane.showMessageDialog(loginPopup, "로그인 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
-                            loginPopup.dispose();
-
-                            loginLabel.setText("my page");
-
-                        } else {
-                            JOptionPane.showMessageDialog(loginPopup, "아이디 또는 비밀번호가 올바르지 않습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
-                            pwField.setText("");
+                            });
                         }
-                    }
-                });
+                    });
+
+
+                    loginMainPanel.add(inputPanel, BorderLayout.CENTER);
+                    loginMainPanel.add(signupLabel, BorderLayout.SOUTH);
+
+                    loginPopup.add(loginMainPanel);
+
+                    loginPopup.setLocationRelativeTo(frame);
+                    loginPopup.setVisible(true);
+
+                    loginButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent loginE) {
+                            String enteredId = idField.getText();
+                            char[] enteredPw = pwField.getPassword();
+                            String password = new String(enteredPw);
+
+                            if (users.containsKey(enteredId) && users.get(enteredId).equals(password)) {
+                                JOptionPane.showMessageDialog(loginPopup, "로그인 성공!", "성공", JOptionPane.INFORMATION_MESSAGE);
+                                loginPopup.dispose();
+
+                                loginLabel.setText("my page");
+                                showMyPageContent(frame);
+
+                            } else {
+                                JOptionPane.showMessageDialog(loginPopup, "아이디 또는 비밀번호가 올바르지 않습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
+                                pwField.setText("");
+                            }
+                        }
+                    });
+                } else if (loginLabel.getText().equals("my page")) {
+                    showMyPageContent(frame);
+                }
             }
         });
 
@@ -407,55 +412,49 @@ public class wkqk {
                     adminCheckButton.setEnabled(false);
                     deleteButton.setVisible(true);
 
-                    // 💡💡💡 관리자 인증 성공 시 사용자 관리 창 띄우기! 💡💡💡
                     JFrame adminUserManageFrame = new JFrame("사용자 관리 (관리자)");
                     adminUserManageFrame.setSize(300, 400);
                     adminUserManageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     adminUserManageFrame.setLayout(new BorderLayout());
 
-                    // 💡💡💡 아이디 목록을 보여줄 JList와 모델 생성 💡💡💡
                     DefaultListModel<String> userListModel = new DefaultListModel<>();
                     for (String id : registeredIds) {
-                        userListModel.addElement(id); // 현재 등록된 아이디들을 모델에 추가
+                        userListModel.addElement(id);
                     }
-                    JList<String> userList = new JList<>(userListModel); // 모델을 JList에 연결
-                    JScrollPane listScrollPane = new JScrollPane(userList); // 스크롤 기능 추가
+                    JList<String> userList = new JList<>(userListModel);
+                    JScrollPane listScrollPane = new JScrollPane(userList);
 
-                    // 💡💡💡 삭제 버튼 생성 💡💡💡
                     JButton deleteUserButton = new JButton("선택된 사용자 삭제");
                     deleteUserButton.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent deleteE) {
-                            String selectedId = userList.getSelectedValue(); // 목록에서 선택된 아이디 가져오기
+                            String selectedId = userList.getSelectedValue();
 
-                            if (selectedId != null) { // 선택된 아이디가 있다면
+                            if (selectedId != null) {
                                 int confirm = JOptionPane.showConfirmDialog(adminUserManageFrame,
                                         selectedId + " 사용자를 정말 삭제하시겠습니까?", "사용자 삭제 확인",
                                         JOptionPane.YES_NO_OPTION);
 
                                 if (confirm == JOptionPane.YES_OPTION) {
-                                    // 💡💡💡 데이터 구조에서 아이디 및 관련 정보 삭제 💡💡💡
                                     registeredIds.remove(selectedId);
                                     users.remove(selectedId);
                                     userDetails.remove(selectedId);
 
-                                    // 💡💡💡 JList 모델에서도 삭제해서 화면 업데이트 💡💡💡
                                     userListModel.removeElement(selectedId);
 
                                     JOptionPane.showMessageDialog(adminUserManageFrame, selectedId + " 사용자가 삭제되었습니다.", "삭제 완료", JOptionPane.INFORMATION_MESSAGE);
                                 }
-                            } else { // 선택된 아이디가 없다면
+                            } else {
                                 JOptionPane.showMessageDialog(adminUserManageFrame, "삭제할 사용자를 선택하세요.", "안내", JOptionPane.WARNING_MESSAGE);
                             }
                         }
                     });
 
-                    // 💡💡💡 관리자 창에 컴포넌트 추가 💡💡💡
                     adminUserManageFrame.add(new JLabel("가입된 사용자 아이디 목록:", SwingConstants.CENTER), BorderLayout.NORTH);
-                    adminUserManageFrame.add(listScrollPane, BorderLayout.CENTER); // 아이디 목록 (스크롤 포함)
-                    adminUserManageFrame.add(deleteUserButton, BorderLayout.SOUTH); // 삭제 버튼
+                    adminUserManageFrame.add(listScrollPane, BorderLayout.CENTER);
+                    adminUserManageFrame.add(deleteUserButton, BorderLayout.SOUTH);
 
-                    adminUserManageFrame.setLocationRelativeTo(frame); // 메인 프레임 중앙에 띄우기
+                    adminUserManageFrame.setLocationRelativeTo(frame);
                     adminUserManageFrame.setVisible(true);
 
 
@@ -475,5 +474,64 @@ public class wkqk {
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    private static void showMyPageContent(JFrame frame) {
+        BorderLayout layout = (BorderLayout) frame.getContentPane().getLayout();
+        java.awt.Component centerComponent = layout.getLayoutComponent(BorderLayout.CENTER);
+
+        if (centerComponent != null) {
+            frame.getContentPane().remove(centerComponent);
+        }
+
+        JPanel myPagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        JLabel certRegLabel = new JLabel("자격증 등록");
+        certRegLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+
+        JButton addButton = new JButton("+");
+        addButton.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+
+        myPagePanel.add(certRegLabel);
+        myPagePanel.add(addButton);
+
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame inputPopup = new JFrame("내용 추가");
+                inputPopup.setSize(300, 150);
+                inputPopup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                inputPopup.setLayout(new FlowLayout());
+
+                JTextField inputField = new JTextField(20);
+                JButton confirmAddButton = new JButton("추가");
+
+                inputPopup.add(new JLabel("추가할 내용:"));
+                inputPopup.add(inputField);
+                inputPopup.add(confirmAddButton);
+
+                inputPopup.setLocationRelativeTo(myPagePanel);
+                inputPopup.setVisible(true);
+
+                confirmAddButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent confirmE) {
+                        String content = inputField.getText();
+                        if (!content.trim().isEmpty()) {
+                            JOptionPane.showMessageDialog(inputPopup, "추가할 내용: " + content, "확인", JOptionPane.INFORMATION_MESSAGE);
+                            inputPopup.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(inputPopup, "내용을 입력하세요.", "경고", JOptionPane.WARNING_MESSAGE);
+                        }
+                    }
+                });
+            }
+        });
+
+
+        frame.getContentPane().add(myPagePanel, BorderLayout.CENTER);
+
+        frame.revalidate();
+        frame.repaint();
     }
 }
