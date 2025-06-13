@@ -39,9 +39,10 @@ public class wkqk {
             JTextArea fullNoticeArea = new JTextArea();
             fullNoticeArea.setEditable(false);
             fullNoticeArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-            fullNoticeArea.setText(noticeArea.getText() +
-                    "\n11. 재시험 일정은 별도 공지됩니다.\n" +
-                    "12. 모의고사 일정은 추후 안내됩니다.\n"
+            fullNoticeArea.setText(
+                    noticeArea.getText() +
+                            "\n11. 재시험 일정은 별도 공지됩니다.\n" +
+                            "12. 모의고사 일정은 추후 안내됩니다.\n"
             );
 
             JScrollPane scrollPane = new JScrollPane(fullNoticeArea);
@@ -59,30 +60,28 @@ public class wkqk {
         noticePanel.add(southButtonPanel, BorderLayout.SOUTH);
         noticePanel.setBorder(BorderFactory.createEmptyBorder(0, 70, 0, 0)); // 왼쪽 2cm 여백
 
-        // 문의하기 섹션
-        JLabel inquiryLabel = new JLabel("문의하기");
-        inquiryLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-
-        JTextArea inquiryArea = new JTextArea(10, 30);
-        inquiryArea.setEditable(false);
-        inquiryArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
-        inquiryArea.setText(
-                "1. 자격증 관련 문의는 010-1234-5678로 연락주세요.\n" +
-                        "2. 시험 일정 변경 시 홈페이지에 공지됩니다.\n" +
-                        "3. 기타 문의사항은 고객센터를 이용해주세요."
+        JPanel examSchedulePanel = new JPanel(new BorderLayout());
+        JLabel examScheduleLabel = new JLabel("시험 일정");
+        examScheduleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+        JTextArea examScheduleArea = new JTextArea(10, 30);
+        examScheduleArea.setEditable(false);
+        examScheduleArea.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+        examScheduleArea.setText(
+                "2024년 제1회 자격검정 시험:\n" +
+                        "- 원서 접수 기간: 6월 15일 ~ 6월 20일\n" +
+                        "- 시험일: 7월 1일\n" +
+                        "- 합격자 발표: 7월 30일"
         );
-
-        JScrollPane inquiryScrollPane = new JScrollPane(inquiryArea);
-        inquiryScrollPane.setPreferredSize(inquiryArea.getPreferredSize());
-
-        JPanel inquiryPanel = new JPanel(new BorderLayout());
-        inquiryPanel.add(inquiryLabel, BorderLayout.NORTH);
-        inquiryPanel.add(inquiryScrollPane, BorderLayout.CENTER);
-        inquiryPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 70)); // 오른쪽 2cm 여백
+        JScrollPane examScheduleScrollPane = new JScrollPane(examScheduleArea);
+        examScheduleScrollPane.setPreferredSize(examScheduleArea.getPreferredSize());
+        examSchedulePanel.add(examScheduleLabel, BorderLayout.NORTH);
+        examSchedulePanel.add(examScheduleScrollPane, BorderLayout.CENTER);
+        examSchedulePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 180, 70)); // 아래 5cm, 오른쪽 2cm 여백
 
         JPanel mainContentPanel = new JPanel(new BorderLayout());
         mainContentPanel.add(noticePanel, BorderLayout.WEST);
-        mainContentPanel.add(inquiryPanel, BorderLayout.EAST);
+        mainContentPanel.add(examSchedulePanel, BorderLayout.EAST);
+        mainContentPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 180, 0)); // 아래 5cm 여백
 
         JPanel topPanel = new JPanel(new BorderLayout());
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -90,11 +89,10 @@ public class wkqk {
         topPanel.add(centerPanel, BorderLayout.CENTER);
         topPanel.add(loginLabel, BorderLayout.EAST);
 
-        JFrame frameMain = frame;
-        frameMain.add(topPanel, BorderLayout.NORTH);
-        frameMain.add(mainContentPanel, BorderLayout.CENTER);
+        frame.add(topPanel, BorderLayout.NORTH);
+        frame.add(mainContentPanel, BorderLayout.CENTER);
 
-        frameMain.setLocationRelativeTo(null);
-        frameMain.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
