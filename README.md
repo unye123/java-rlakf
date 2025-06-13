@@ -33,3 +33,6 @@ JAVA Swing (GUL)
 ## 참고 사항
 과제 제출을 위해 핵심 기능만 구현한 버전이다
 데이터 저장 및 불러오기 기능의 기본적인 구조는 포함되어 있으나, 현재 기능과 완전히 연동되어 있지 않을 수 있다
+
+## 피그마 작성
+![Image](https://github.com/user-attachments/assets/1cedcd9c-5d38-4ce9-9251-f1e09ccb3bcc)
